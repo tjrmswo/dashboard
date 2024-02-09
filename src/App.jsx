@@ -57,11 +57,12 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const App = () => {
-  return;
-  <>
-    <Router />
-    <GlobalStyle />
-  </>;
+  return (
+    <>
+      <GlobalStyle />
+      <Router />
+    </>
+  );
 };
 
 export default App;
