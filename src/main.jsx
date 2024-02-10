@@ -1,9 +1,18 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+//msw
+import { createRoot } from "react-dom/client";
+import { worker } from "./mocks/brower.jsx";
+import { StrictMode } from "react";
+if (import.meta.env.NODE_ENV !== "development") {
+  worker.start();
+}
+
+const rootElement = document.getElementById("root");
+const root = createRoot(rootElement);
+
+root.render(
+  <StrictMode>
     <App />
-  </React.StrictMode>
+  </StrictMode>
 );
