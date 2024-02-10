@@ -1,4 +1,4 @@
-import BuyerList from "../components/BuyerList";
+import BuyerList from "../components/BuyerList/BuyerList";
 import styled from "styled-components";
 import "../font.css";
 const Mainpage = () => {
