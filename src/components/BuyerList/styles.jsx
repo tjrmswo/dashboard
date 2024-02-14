@@ -38,6 +38,7 @@ export const Container = styled.div`
   }
   // Category --------------------
   .categoryRow {
+    height: 6vh;
     display: grid;
     grid-template-rows: 0.3fr 4fr;
     grid-column: 2 / span 3;
@@ -171,6 +172,7 @@ export const Container = styled.div`
     display: flex;
     flex-direction: row;
     margin-top: 2rem;
+    align-items: center;
   }
   .userListcategoryRow {
     display: grid;
@@ -263,45 +265,50 @@ export const Container = styled.div`
   .uL_answerContainer {
     display: flex;
     flex-direction: row;
+    align-items: center;
   }
   .uL_answer {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
+    height: 2.9vh;
+    background-color: #dcebc9;
+    margin-left: 0.4rem;
+    margin-right: 0.4rem;
   }
   .uL_uploadRow {
-    width: 8vw;
+    width: 11vw;
   }
   .uL_uploadContainer {
     display: flex;
     flex-direction: row;
-    align-items: center;
   }
   .uL_sign {
-    padding-left: 1rem;
-    width: 100%;
-    height: 2.8vh;
-    margin-left: 0.2rem;
-    background-color: #dcebc9;
+    color: #dcebc9;
+    margin-left: 0.4rem;
   }
   .uL_electron {
-    padding-left: 1rem;
-    width: 100%;
-    height: 2.8vh;
-    margin-left: 0.2rem;
-    background-color: #dcebc9;
+    color: #dcebc9;
+    margin-left: 0.4rem;
   }
 `;
+
+//input
 
 export const InputContainer = styled.div`
   width: 10vw;
   display: grid;
+
   .input {
-    border-radius: 0.5rem;
-    outline: none;
+    outline: white;
+    border: 1px solid white;
+    margin: 0.3rem;
   }
   .row {
     display: flex;
     flex-direction: row;
+    background-color: #49b65e;
   }
 `;
 
@@ -352,4 +359,11 @@ export const StateDropdownImg = styled.img`
 export const UploaddropdownImg = styled.img`
   position: relative;
   bottom: 0.3rem;
+`;
+
+export const SearchIcon = styled.img`
+  width: 2vw;
+  height: 4vh;
+  background-color: #49b65e;
+  padding: 0.2rem 0.3rem 0.2rem 0.2rem;
 `;
