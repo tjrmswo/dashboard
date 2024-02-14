@@ -7,6 +7,12 @@ export default defineConfig({
   server: {
     port: 3000,
   },
+  build: {
+    manifest: true,
+    rollupOptions: {
+      input: "main.jsx",
+    },
+  },
   resolve: {
     alias: [
       { find: "@", replacement: "./src" },

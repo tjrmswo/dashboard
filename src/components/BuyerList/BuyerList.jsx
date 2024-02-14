@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from "react";
 //libraries
 import axios from "axios";
 
@@ -16,31 +17,65 @@ import {
   DropdownImg,
   StateDropdownImg,
   UploaddropdownImg,
+  SearchIcon,
 } from "./styles";
 
 //constants
 import { Category } from "../../constans/Catergory";
+// import { BList } from "../../constans/BList";
 
 //img
-import searchIcon from "../../assets/searchIcon.png";
 import downloadIcon from "../../assets/download_Icon.png";
 import arrowDropdownIcon from "../../assets/arrow_drop_down_Icon.png";
+import searchWhite from "../../assets/search_white.png";
 
 const BuyerList = () => {
   const [userList, setUserList] = useState([]);
 
-  async function fetchData() {
+  const fetchData = async () => {
     try {
-      const res = await axios.get("fetchData");
-      setUserList(res.data);
-    } catch (err) {
-      console.log(err);
+      const response = await axios.get("/fetchData");
+      const data = response.data;
+      if (Array.isArray(data)) {
+        setUserList(data);
+      } else {
+        // 응답이 배열이 아닌 경우 처리
+        console.log("Response data is not an array:", data);
+        const response = await axios.get("/fetchData");
+        setUserList(response.data);
+      }
+    } catch (error) {
+      console.log(error);
     }
-  }
+  };
+
+  const imgUpload = (e) => {
+    const { files } = e.target;
+    const uploadFile = files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(uploadFile);
+    reader.onload = async () => {
+      console.log(reader.result);
+
+      const imgData = reader.result;
+      try {
+        const response = await axios.post("/upload", {
+          picture: imgData,
+        });
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  };
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [setUserList]);
+
+  useEffect(() => {
+    console.log("userList: ", userList);
+  }, [userList]);
 
   return (
     <Container>
@@ -59,7 +94,7 @@ const BuyerList = () => {
         <InputContainer>
           <div className="row">
             <input className="input" />
-            <img src={searchIcon} />
+            <SearchIcon src={searchWhite} />
           </div>
         </InputContainer>
       </div>
@@ -129,7 +164,7 @@ const BuyerList = () => {
             </div>
           </div>
         </div>
-        {userList && (
+        {userList.length > 0 ? (
           <div>
             {userList.map((user, i) => (
               <div className="userListcategoryRow" key={i}>
@@ -186,14 +221,24 @@ const BuyerList = () => {
                   </div>
                   <div className="uL_uploadRow">
                     <div className="uL_uploadContainer">
-                      <div className="uL_sign">{user.sign}</div>
-                      <div className="uL_electron">{user.electron}</div>
+                      <input
+                        type="file"
+                        className="uL_sign"
+                        onChange={imgUpload}
+                      />
+                      <input
+                        type="file"
+                        className="uL_electron"
+                        onChange={imgUpload}
+                      />
                     </div>
                   </div>
                 </div>
               </div>
             ))}
           </div>
+        ) : (
+          <div>Loading...</div>
         )}
       </div>
     </Container>
