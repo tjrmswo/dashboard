@@ -276,6 +276,7 @@ export const Container = styled.div`
     background-color: #dcebc9;
     margin-left: 0.4rem;
     margin-right: 0.4rem;
+    border-radius: 0.3rem;
   }
   .uL_uploadRow {
     width: 11vw;
