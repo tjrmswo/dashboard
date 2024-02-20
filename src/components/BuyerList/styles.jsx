@@ -292,6 +292,11 @@ export const Container = styled.div`
     color: #dcebc9;
     margin-left: 0.4rem;
   }
+  .pageContainer {
+    display: grid;
+    grid-column: 2 / span 3;
+    margin-top: 1rem;
+  }
 `;
 
 //input

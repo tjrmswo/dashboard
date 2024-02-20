@@ -24,6 +24,11 @@ import {
 import { Category } from "../../constans/Catergory";
 // import { BList } from "../../constans/BList";
 
+// components
+import Paging from "./Paging";
+
+//custom hooks
+
 //img
 import downloadIcon from "../../assets/download_Icon.png";
 import arrowDropdownIcon from "../../assets/arrow_drop_down_Icon.png";
@@ -31,6 +36,41 @@ import searchWhite from "../../assets/search_white.png";
 
 const BuyerList = () => {
   const [userList, setUserList] = useState([]);
+  const [userData, setUserData] = useState([]);
+  const [saveImg, setSaveImg] = useState();
+  const [answers, setAnswers] = useState([]);
+  const [searchData, setSearchData] = useState([]);
+  const [category, setCategory] = useState("");
+
+  //Get userData
+  const getUserData = (data) => {
+    setSaveImg(data.img);
+    setAnswers([
+      {
+        people_answer: data.people_answer,
+        ai_answer: data.ai_answer,
+      },
+    ]);
+    setUserData([
+      {
+        userId: data.id,
+        userName: data.name,
+        userPhoneNumber: data.phone,
+        userAddress: data.address,
+        userNickname: data.nickname,
+      },
+    ]);
+  };
+
+  // Download Img
+  const downloadImg = () => {
+    const a = document.createElement("a");
+    a.href = `${saveImg}`;
+    a.download = `${userData[0].userName}_${userData[0].userId}` || "download";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
 
   const fetchData = async () => {
     try {
@@ -69,13 +109,29 @@ const BuyerList = () => {
     };
   };
 
+  // search category
+  const searchCategory = (searchData) => {
+    const detailSearch = userList.filter((item) => {
+      return item[category].includes(searchData);
+    });
+    console.log("detailSearch: ", detailSearch);
+    setSearchData(detailSearch);
+  };
+
+  //select category
+  const selectCategory = (value) => {
+    setCategory(value);
+  };
+
   useEffect(() => {
     fetchData();
   }, [setUserList]);
 
-  useEffect(() => {
-    console.log("userList: ", userList);
-  }, [userList]);
+  // useEffect(() => {
+  //   console.log("userList: ", userList);
+  //   console.log("category: ", category);
+  //   console.log("searchData: ", searchData);
+  // }, [userList, searchData, category]);
 
   return (
     <Container>
@@ -83,7 +139,10 @@ const BuyerList = () => {
       <h1 className="buyerList">구매자 리스트</h1>
       <div className="SearchContainer">
         <Form>
-          <SelectCategory>
+          <SelectCategory
+            name="category"
+            onChange={(e) => selectCategory(e.target.value)}
+          >
             {Category.map((user, i) => (
               <option key={i} value={user.id}>
                 {user.category}
@@ -93,7 +152,11 @@ const BuyerList = () => {
         </Form>
         <InputContainer>
           <div className="row">
-            <input className="input" />
+            <input
+              className="input"
+              name="category_value"
+              onChange={(e) => searchCategory(e.target.value)}
+            />
             <SearchIcon src={searchWhite} />
           </div>
         </InputContainer>
@@ -164,10 +227,14 @@ const BuyerList = () => {
             </div>
           </div>
         </div>
-        {userList.length > 0 ? (
+        {searchData.length > 0 ? (
           <div>
-            {userList.map((user, i) => (
-              <div className="userListcategoryRow" key={i}>
+            {searchData.map((user, i) => (
+              <div
+                className="userListcategoryRow"
+                key={i}
+                onClick={() => getUserData(user)}
+              >
                 <div className="userListRow">
                   <div className="numberRow">
                     <div className="number">{user.id}</div>
@@ -240,6 +307,10 @@ const BuyerList = () => {
         ) : (
           <div>Loading...</div>
         )}
+      </div>
+      <div></div>
+      <div className="pageContainer">
+        <Paging userList={userList} />
       </div>
     </Container>
   );
