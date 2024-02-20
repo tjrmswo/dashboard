@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 //libraries
 import axios from "axios";
+import { CSVLink } from "react-csv";
 
 //css
 import "../../font.css";
@@ -22,7 +23,11 @@ import {
 
 //constants
 import { Category } from "../../constans/Catergory";
-// import { BList } from "../../constans/BList";
+import { headers } from "../../constans/CSVheader";
+import { answerHeaders } from "../../constans/CSVAnswerHeader";
+
+//components
+import Paging from "./Paging";
 
 //img
 import downloadIcon from "../../assets/download_Icon.png";
@@ -31,7 +36,42 @@ import searchWhite from "../../assets/search_white.png";
 
 const BuyerList = () => {
   const [userList, setUserList] = useState([]);
+  const [userData, setUserData] = useState([]);
+  const [saveImg, setSaveImg] = useState();
+  const [answers, setAnswers] = useState([]);
+  const [countOfPage, setCountOfPage] = useState(0);
 
+  //Get userData,
+  const getUserData = (data) => {
+    setSaveImg(data.img);
+    setAnswers([
+      {
+        people_answer: data.people_answer,
+        ai_answer: data.ai_answer,
+      },
+    ]);
+    setUserData([
+      {
+        userId: data.id,
+        userName: data.name,
+        userPhoneNumber: data.phone,
+        userAddress: data.address,
+        userNickname: data.nickname,
+      },
+    ]);
+  };
+
+  // Download Img
+  const downloadImg = () => {
+    const a = document.createElement("a");
+    a.href = `${saveImg}`;
+    a.download = `${userData[0].userName}_${userData[0].userId}` || "download";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
+  //Fetch UserList
   const fetchData = async () => {
     try {
       const response = await axios.get("/fetchData");
@@ -49,6 +89,7 @@ const BuyerList = () => {
     }
   };
 
+  //Upload Img
   const imgUpload = (e) => {
     const { files } = e.target;
     const uploadFile = files[0];
@@ -56,7 +97,6 @@ const BuyerList = () => {
     reader.readAsDataURL(uploadFile);
     reader.onload = async () => {
       console.log(reader.result);
-
       const imgData = reader.result;
       try {
         const response = await axios.post("/upload", {
@@ -75,7 +115,8 @@ const BuyerList = () => {
 
   useEffect(() => {
     console.log("userList: ", userList);
-  }, [userList]);
+    console.log("userData: ", userData);
+  }, [userList, userData]);
 
   return (
     <Container>
@@ -128,7 +169,18 @@ const BuyerList = () => {
           <div className="addressRow">
             <div className="addressContainer">
               <div className="address">주소</div>
-              <AddressdownloadImg src={downloadIcon} />
+              <CSVLink
+                data={userData}
+                headers={headers}
+                filename={
+                  userData.length > 0
+                    ? `${userData[0].userName}_${userData[0].userId}`
+                    : "userData.csv"
+                }
+                target="_blank"
+              >
+                <AddressdownloadImg src={downloadIcon} onClick={downloadImg} />
+              </CSVLink>
               <div className="divider">|</div>
             </div>
           </div>
@@ -167,7 +219,11 @@ const BuyerList = () => {
         {userList.length > 0 ? (
           <div>
             {userList.map((user, i) => (
-              <div className="userListcategoryRow" key={i}>
+              <div
+                className="userListcategoryRow"
+                key={i}
+                onClick={() => getUserData(user)}
+              >
                 <div className="userListRow">
                   <div className="numberRow">
                     <div className="number">{user.id}</div>
@@ -214,10 +270,21 @@ const BuyerList = () => {
                     </div>
                   </div>
                   <div className="uL_answeRow">
-                    <div className="uL_answerContainer">
-                      <div className="uL_answer">{user.answer}</div>
-                      <div className="divider">|</div>
-                    </div>
+                    <CSVLink
+                      data={answers}
+                      headers={answerHeaders}
+                      filename={
+                        userData.length > 0
+                          ? `${userData[0].userName}_${userData[0].userId}`
+                          : "userData.csv"
+                      }
+                      target="_blank"
+                    >
+                      <div className="uL_answerContainer">
+                        <div className="uL_answer">{user.answer}</div>
+                        <div className="divider">|</div>
+                      </div>
+                    </CSVLink>
                   </div>
                   <div className="uL_uploadRow">
                     <div className="uL_uploadContainer">
@@ -241,6 +308,8 @@ const BuyerList = () => {
           <div>Loading...</div>
         )}
       </div>
+      <div></div>
+      <Paging />
     </Container>
   );
 };
