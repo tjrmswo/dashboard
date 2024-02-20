@@ -29,6 +29,11 @@ import { answerHeaders } from "../../constans/CSVAnswerHeader";
 //components
 import Paging from "./Paging";
 
+// components
+import Paging from "./Paging";
+
+//custom hooks
+
 //img
 import downloadIcon from "../../assets/download_Icon.png";
 import arrowDropdownIcon from "../../assets/arrow_drop_down_Icon.png";
@@ -39,9 +44,10 @@ const BuyerList = () => {
   const [userData, setUserData] = useState([]);
   const [saveImg, setSaveImg] = useState();
   const [answers, setAnswers] = useState([]);
-  const [countOfPage, setCountOfPage] = useState(0);
+  const [searchData, setSearchData] = useState([]);
+  const [category, setCategory] = useState("");
 
-  //Get userData,
+  //Get userData
   const getUserData = (data) => {
     setSaveImg(data.img);
     setAnswers([
@@ -109,14 +115,30 @@ const BuyerList = () => {
     };
   };
 
+  // search category
+  const searchCategory = (searchData) => {
+    const detailSearch = userList.filter((item) => {
+      return item[category].includes(searchData);
+    });
+    console.log("detailSearch: ", detailSearch);
+    setSearchData(detailSearch);
+  };
+
+  //select category
+  const selectCategory = (value) => {
+    setCategory(value);
+  };
+
   useEffect(() => {
     fetchData();
   }, [setUserList]);
 
-  useEffect(() => {
-    console.log("userList: ", userList);
-    console.log("userData: ", userData);
-  }, [userList, userData]);
+
+  // useEffect(() => {
+  //   console.log("userList: ", userList);
+  //   console.log("category: ", category);
+  //   console.log("searchData: ", searchData);
+  // }, [userList, searchData, category]);
 
   return (
     <Container>
@@ -124,7 +146,10 @@ const BuyerList = () => {
       <h1 className="buyerList">구매자 리스트</h1>
       <div className="SearchContainer">
         <Form>
-          <SelectCategory>
+          <SelectCategory
+            name="category"
+            onChange={(e) => selectCategory(e.target.value)}
+          >
             {Category.map((user, i) => (
               <option key={i} value={user.id}>
                 {user.category}
@@ -134,7 +159,11 @@ const BuyerList = () => {
         </Form>
         <InputContainer>
           <div className="row">
-            <input className="input" />
+            <input
+              className="input"
+              name="category_value"
+              onChange={(e) => searchCategory(e.target.value)}
+            />
             <SearchIcon src={searchWhite} />
           </div>
         </InputContainer>
@@ -216,9 +245,9 @@ const BuyerList = () => {
             </div>
           </div>
         </div>
-        {userList.length > 0 ? (
+        {searchData.length > 0 ? (
           <div>
-            {userList.map((user, i) => (
+            {searchData.map((user, i) => (
               <div
                 className="userListcategoryRow"
                 key={i}
@@ -309,7 +338,10 @@ const BuyerList = () => {
         )}
       </div>
       <div></div>
-      <Paging />
+      <div className="pageContainer">
+        <Paging userList={userList} />
+      </div>
+
     </Container>
   );
 };
