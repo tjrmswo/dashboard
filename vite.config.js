@@ -20,4 +20,7 @@ export default defineConfig({
       { find: "@components", replacement: "./src/components" },
     ],
   },
+  optimizeDeps: {
+    exclude: ["js-big-decimal"],
+  },
 });
