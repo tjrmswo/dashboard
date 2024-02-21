@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
+
+// components
 import BuyerList from "../../components/BuyerList/BuyerList";
+import SignupList from "../../components/SignupList/SignupList";
+import MainStatistics from "../../components/mainStatistics/MainStatistics";
+
+// css
 import "../../font.css";
 import { Container } from "./styles";
+
 const Mainpage = () => {
   const [clicked, setClicked] = useState("");
 
@@ -10,6 +17,13 @@ const Mainpage = () => {
     setClicked(className);
   };
 
+  const componentList = {
+    BuyerList: <BuyerList />,
+    SignupList: <SignupList />,
+    MainStatistics: <MainStatistics />,
+  };
+
+  const componentToShow = componentList[clicked];
   useEffect(() => {
     console.log(clicked);
   }, [clicked]);
@@ -28,7 +42,7 @@ const Mainpage = () => {
           </div>
         </div>
       </div>
-      <BuyerList />
+      {componentToShow || <MainStatistics />}
     </Container>
   );
 };

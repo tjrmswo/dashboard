@@ -22,14 +22,11 @@ import {
 } from "./styles";
 
 //constants
-import { Category } from "../../constans/Catergory";
-import { headers } from "../../constans/CSVheader";
-import { answerHeaders } from "../../constans/CSVAnswerHeader";
+import { Category } from "../../constans/BuyerList_Constants/Catergory";
+import { headers } from "../../constans/BuyerList_Constants/CSVheader";
+import { answerHeaders } from "../../constans/BuyerList_Constants/CSVAnswerHeader";
 
 //components
-import Paging from "./Paging";
-
-// components
 import Paging from "./Paging";
 
 //custom hooks
@@ -117,6 +114,7 @@ const BuyerList = () => {
 
   // search category
   const searchCategory = (searchData) => {
+    console.log("searchData: ", searchData);
     const detailSearch = userList.filter((item) => {
       return item[category].includes(searchData);
     });
@@ -132,7 +130,6 @@ const BuyerList = () => {
   useEffect(() => {
     fetchData();
   }, [setUserList]);
-
 
   // useEffect(() => {
   //   console.log("userList: ", userList);
@@ -341,7 +338,6 @@ const BuyerList = () => {
       <div className="pageContainer">
         <Paging userList={userList} />
       </div>
-
     </Container>
   );
 };

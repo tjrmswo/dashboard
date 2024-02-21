@@ -1,5 +1,5 @@
 import { http, HttpResponse } from "msw";
-import { BList } from "../constans/BList";
+import { BList } from "../constans/BuyerList_Constants/BList";
 export const handlers = [
   http.get("/fetchData", () => {
     return HttpResponse.json(BList);
