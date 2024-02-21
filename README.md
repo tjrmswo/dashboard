@@ -6,3 +6,8 @@
 ## 2/10
 <img src="https://github.com/EverBlaze-dev/INK_LINK_WEB/assets/93309061/366286fb-983d-497c-9efe-15eaca180c56">
 
+## 2/21
+<img src="https://github.com/EverBlaze-dev/INK_LINK_WEB/assets/93309061/1400dd3c-20cf-4819-8414-f0abc46a7749">
+<img src="https://github.com/EverBlaze-dev/INK_LINK_WEB/assets/93309061/782d505f-1933-4d19-96fd-667fef886dde">
+
+
