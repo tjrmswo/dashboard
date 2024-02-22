@@ -24,6 +24,8 @@
     "@mui/styled-engine": "^5.15.9",
     "@mui/x-charts": "^6.19.4",
     "@mui/x-data-grid": "^6.19.4",
+    "@mui/x-data-grid-premium": "^6.19.4",
+    "@mui/x-data-grid-pro": "^6.19.4",
     "@table-library/react-table-library": "^4.1.7",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
