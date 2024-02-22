@@ -18,16 +18,14 @@ export const xAxis = [
 export const series = [
   {
     data: [null, 10, 15, 25, 30, 20, 60, 50],
-    color: "rgb(86, 138, 53)",
+    color: "rgb(95, 239, 6)",
     curve: "linear",
     label: "구매자",
-    area: true,
   },
   {
     data: [null, 50, 30, 10, 20, 50, 60, 80],
     color: "rgb(124, 177, 72)",
     curve: "linear",
     label: "가입자",
-    area: true,
   },
 ];

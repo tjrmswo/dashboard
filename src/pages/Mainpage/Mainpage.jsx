@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 // components
 import BuyerList from "../../components/BuyerList/BuyerList";
 import SignupList from "../../components/SignupList/SignupList";
-import MainStatistics from "../../components/mainStatistics/MainStatistics";
+import MainStatistics from "../../components/mainStatistics/mainStatistics";
 
 // css
 import "../../font.css";
