@@ -13,7 +13,6 @@ export const Container = styled.div`
     align-items: end;
     justify-content: start;
     font-family: "GmarketSans-Bold";
-    font-size: 1.8rem;
   }
   .buttonRow {
     display: flex;
@@ -42,7 +41,6 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100%;
   }
   .row {
     display: flex;
@@ -67,7 +65,7 @@ export const BuyerColor = styled.span`
   width: 1vw;
   height: 2vh;
   border-radius: 50%;
-  background-color: rgb(86, 138, 53);
+  background-color: rgb(95, 239, 6);
   margin-right: 0.5rem;
 `;
 

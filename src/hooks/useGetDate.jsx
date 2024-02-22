@@ -1,22 +1,31 @@
 import moment from "moment";
 
-const useGetDate = (slides) => {
-  const startDate = moment(new Date(2024, 0, 1)).format("YYYY.MM.DD");
-  let firstTime = startDate;
-  let secondeTime = moment(new Date(2024, 0, 1))
-    .add({ days: 6 })
+const useGetDate = (slides, setSlides) => {
+  let firstTime = moment(new Date(2024, 0, 1), "YYYY.MM.DD").format(
+    "YYYY.MM.DD"
+  );
+  let secondTime = moment(new Date(2024, 0, 1))
+    .add(6, "days")
     .format("YYYY.MM.DD");
-  let lengths = 48;
+  let lengths = 5;
   while (lengths > 0) {
     if (slides.length === 0) {
-      slides.push(`${firstTime}~${secondeTime}`);
-      firstTime = moment(secondeTime).add({ days: 1 }).format("YYYY.MM.DD");
-      secondeTime = "";
+      setSlides((prev) => [...prev, `${firstTime}~${secondTime}`]);
+      firstTime = moment(secondTime, "YYYY.MM.DD")
+        .add(1, "days")
+        .format("YYYY.MM.DD");
+      console.log(firstTime, secondTime);
+      secondTime = "";
     } else {
-      secondeTime = moment(firstTime).add({ days: 6 }).format("YYYY.MM.DD");
-      slides.push(`${firstTime}~${secondeTime}`);
-      firstTime = moment(secondeTime).add({ days: 1 }).format("YYYY.MM.DD");
-      secondeTime = "";
+      secondTime = moment(firstTime, "YYYY.MM.DD")
+        .add(6, "days")
+        .format("YYYY.MM.DD");
+      console.log(firstTime, secondTime);
+      setSlides((prev) => [...prev, `${firstTime}~${secondTime}`]);
+      firstTime = moment(secondTime, "YYYY.MM.DD")
+        .add(1, "days")
+        .format("YYYY.MM.DD");
+      secondTime = "";
     }
     lengths -= 1;
   }
