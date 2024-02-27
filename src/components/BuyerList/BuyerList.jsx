@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from "react";
 
 //libraries
-import axios from "axios";
 import { CSVLink } from "react-csv";
-import { DataGrid } from "@mui/x-data-grid";
-import { DataGridPremium } from "@mui/x-data-grid-premium";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { useRecoilState } from "recoil";
+import { csvData, csvTitle } from "../../atom/state";
 
 //css
 import "../../font.css";
@@ -26,7 +26,6 @@ import { answerHeaders } from "../../constans/BuyerList_Constants/csv/CSVAnswerH
 import { columnBuyerList } from "../../constans/BuyerList_Constants/table/table_column";
 
 //components
-import Paging from "./Paging";
 
 //custom hooks
 import UseDownloadImg from "../../hooks/BuyerList/useDownloadImg";
@@ -40,28 +39,27 @@ import arrowDropdownIcon from "../../assets/arrow_drop_down_Icon.png";
 import searchWhite from "../../assets/search_white.png";
 
 const BuyerList = () => {
+  //user entire data
   const [userList, setUserList] = useState([]);
+  // select user data
   const [userData, setUserData] = useState([]);
-  const [saveImg, setSaveImg] = useState();
-  const [answers, setAnswers] = useState([]);
+  // ai answer and manager answer
+  const [recoilcsvData, setRecoilcsvData] = useRecoilState(csvData);
+  const [recoilcsvTitle, setRecoilcsvTitle] = useRecoilState(csvTitle);
+  // search data(input)
   const [searchData, setSearchData] = useState([]);
+  // select category(input)
   const [category, setCategory] = useState("");
 
   //Get userData
   const getUserData = (data) => {
     const GetUserData = UseGetUserData(
       data,
-      setSaveImg,
-      setAnswers,
-      setUserData
+      setUserData,
+      setRecoilcsvData,
+      setRecoilcsvTitle
     );
     GetUserData();
-  };
-
-  // Download Img
-  const downloadImg = () => {
-    const download = UseDownloadImg(saveImg, userData);
-    download();
   };
 
   //Fetch UserList
@@ -72,22 +70,22 @@ const BuyerList = () => {
 
   //Upload Img
   const imgUpload = (e) => {
-    const { files } = e.target;
-    const uploadFile = files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(uploadFile);
-    reader.onload = async () => {
-      console.log(reader.result);
-      const imgData = reader.result;
-      try {
-        const response = await axios.post("/upload", {
-          picture: imgData,
-        });
-        console.log(response);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+    // const { files } = e.target;
+    // const uploadFile = files[0];
+    // const reader = new FileReader();
+    // reader.readAsDataURL(uploadFile);
+    // reader.onload = async () => {
+    //   console.log(reader.result);
+    //   const imgData = reader.result;
+    //   try {
+    //     const response = await axios.post("/upload", {
+    //       picture: imgData,
+    //     });
+    //     console.log(response);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
   };
 
   // search category
@@ -113,9 +111,9 @@ const BuyerList = () => {
   useEffect(() => {
     // console.log("userList: ", userList);
     // console.log("userData: ", userData);
-    // console.log("category: ", category);
-    // console.log("searchData: ", searchData);
-  }, [userList, userData]);
+    console.log("recoilcsvData: ", recoilcsvData);
+    // console.log("csvData: ", csvData);
+  }, [userList, userData, recoilcsvData]);
 
   return (
     <Container>
@@ -149,17 +147,23 @@ const BuyerList = () => {
       <div className="buyListHeader">구매자 명단</div>
       <div></div>
       <div className="dataContainer">
-        <DataGridPremium
+        <DataGrid
           getRowId={(row) => row.userSubscribeStory}
           rows={userList}
           columns={columnBuyerList}
           initialState={{
             pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
+              paginationModel: { page: 0, pageSize: 7 },
             },
           }}
-          pageSizeOptions={[5, 10]}
+          pageSizeOptions={[8, 10]}
           checkboxSelection
+          onCellClick={(cell) => {
+            getUserData(cell);
+          }}
+          slots={{
+            toolbar: GridToolbar,
+          }}
         />
       </div>
       <div></div>
