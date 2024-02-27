@@ -36,6 +36,7 @@ export const Container = styled.div`
     font-family: "GmarketSans-Medium";
   }
   .dataContainer {
+    width: 100%;
     display: grid;
     align-items: center;
     justify-content: center;

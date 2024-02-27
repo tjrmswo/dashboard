@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mui/x-data-grid-generator": "^6.19.4",
     "apexcharts": "^3.46.0",
     "axios": "^1.6.7",
     "react": "^18.2.0",
@@ -24,8 +25,6 @@
     "@mui/styled-engine": "^5.15.9",
     "@mui/x-charts": "^6.19.4",
     "@mui/x-data-grid": "^6.19.4",
-    "@mui/x-data-grid-premium": "^6.19.4",
-    "@mui/x-data-grid-pro": "^6.19.4",
     "@table-library/react-table-library": "^4.1.7",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
@@ -39,6 +38,7 @@
     "msw": "^2.1.7",
     "react-js-pagination": "^3.0.3",
     "react-paginate": "^8.2.0",
+    "recoil": "^0.7.7",
     "swiper": "^11.0.6",
     "vite": "^5.1.0"
   },

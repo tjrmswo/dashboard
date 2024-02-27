@@ -49,19 +49,19 @@ const MainStatistics = () => {
       if (slides.length === 0) {
         setSlides((prev) => [...prev, `${firstTime}~${secondTime}`]);
         firstTime = moment(secondTime).add(1, "days").format("YYYY.MM.DD");
-        console.log(firstTime, secondTime);
+        // console.log(firstTime, secondTime);
         secondTime = "";
-        console.log(firstTime, secondTime);
+        // console.log(firstTime, secondTime);
       } else {
         secondTime = moment(firstTime).add(6, "days").format("YYYY.MM.DD");
-        console.log(firstTime, secondTime);
+        // console.log(firstTime, secondTime);
         setSlides((prev) => [...prev, `${firstTime}~${secondTime}`]);
         firstTime = moment(secondTime).add(1, "days").format("YYYY.MM.DD");
         secondTime = "";
-        console.log(firstTime, secondTime);
+        // console.log(firstTime, secondTime);
       }
       lengths -= 1;
-      console.log(slides);
+      // console.log(slides);
     }
   };
 
