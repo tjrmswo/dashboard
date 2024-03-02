@@ -1,5 +1,6 @@
 import App from "./App.jsx";
 import { createRoot } from "react-dom/client";
+import "./configs/recoil.jsx";
 
 //recoil
 import { RecoilRoot } from "recoil";

@@ -24,3 +24,13 @@ export const csvTitle = atom({
     },
   },
 });
+
+export const signupEntireUserList = atom({
+  key: "signupList",
+  default: [],
+});
+
+export const deleteCellData = atom({
+  key: "deleteCellData",
+  default: [],
+});

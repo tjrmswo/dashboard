@@ -17,7 +17,13 @@ import "swiper/css/navigation";
 import "./style.css";
 
 // contants
-import { Container, Button, BuyerColor, SigupUserColor } from "./styles";
+import {
+  Container,
+  MonthButton,
+  DayButton,
+  BuyerColor,
+  SigupUserColor,
+} from "./styles";
 import { COLUMNS } from "../../constans/MainStatistics_Constants/table/tableColumn";
 import { nodes } from "../../constans/MainStatistics_Constants/table/data";
 import {
@@ -31,6 +37,9 @@ import { dateSwiper } from "../../constans/MainStatistics_Constants/Swiper/Swipe
 // import useGetDate from "../../hooks/useGetDate";
 
 const MainStatistics = () => {
+  //월, 일 단위 버튼
+  const [unitButton, setUnitButton] = useState("");
+
   //slide data
   const [slides, setSlides] = useState([]);
 
@@ -49,20 +58,22 @@ const MainStatistics = () => {
       if (slides.length === 0) {
         setSlides((prev) => [...prev, `${firstTime}~${secondTime}`]);
         firstTime = moment(secondTime).add(1, "days").format("YYYY.MM.DD");
-        // console.log(firstTime, secondTime);
+        console.log(firstTime, secondTime);
         secondTime = "";
-        // console.log(firstTime, secondTime);
       } else {
         secondTime = moment(firstTime).add(6, "days").format("YYYY.MM.DD");
-        // console.log(firstTime, secondTime);
+        console.log(firstTime, secondTime);
         setSlides((prev) => [...prev, `${firstTime}~${secondTime}`]);
         firstTime = moment(secondTime).add(1, "days").format("YYYY.MM.DD");
         secondTime = "";
-        // console.log(firstTime, secondTime);
       }
       lengths -= 1;
-      // console.log(slides);
     }
+    console.log(slides);
+  };
+
+  const handleButton = (button) => {
+    setUnitButton(button);
   };
 
   useEffect(() => {
@@ -74,8 +85,20 @@ const MainStatistics = () => {
       <div></div>
       <h1 className="mainstatistics">INK LINK 메인 통계</h1>
       <div className="buttonRow">
-        <Button>월 단위</Button>
-        <Button>일 단위</Button>
+        <MonthButton
+          value={unitButton}
+          name="month"
+          onClick={(e) => handleButton(e.target.name)}
+        >
+          월 단위
+        </MonthButton>
+        <DayButton
+          value={unitButton}
+          name="day"
+          onClick={(e) => handleButton(e.target.name)}
+        >
+          일 단위
+        </DayButton>
       </div>
       <div></div>
       <div className="dayContainer">
@@ -106,13 +129,6 @@ const MainStatistics = () => {
           <div className="buyer">구매자</div>
           <SigupUserColor></SigupUserColor>
           <div>가입자</div>
-          <button
-            onClick={() => {
-              console.log(slides);
-            }}
-          >
-            클릭
-          </button>
         </div>
       </div>
     </Container>
