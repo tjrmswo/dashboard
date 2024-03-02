@@ -21,7 +21,8 @@ const useFetchData = (setUserList) => {
         setUserList(addPackage);
       } else {
         // 응답이 배열이 아닌 경우 처리
-        console.log("Response data is not an array:", data);
+        // console.log("Response data is not an array:", data);
+
         // const response = await axios.get(
         //   import.meta.env.VITE_API_ADDRESS + "admin/buyer"
         // );

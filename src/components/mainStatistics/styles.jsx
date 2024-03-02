@@ -54,10 +54,21 @@ export const Container = styled.div`
   }
 `;
 
-export const Button = styled.button`
-  width: 6vw;
+export const MonthButton = styled.button`
+  width: 8vw;
+  height: 5vh;
   font-size: 1.2rem;
-  background-color: #dcebc9;
+  background-color: ${(props) =>
+    props.value === "month" ? "#716e705c" : "#dcebc9"};
+  border: none;
+`;
+
+export const DayButton = styled.button`
+  width: 8vw;
+  height: 5vh;
+  font-size: 1.2rem;
+  background-color: ${(props) =>
+    props.value === "day" ? "#716e705c" : "#dcebc9"};
   border: none;
 `;
 
