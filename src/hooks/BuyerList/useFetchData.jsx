@@ -7,10 +7,7 @@ const useFetchData = (setUserList) => {
         import.meta.env.VITE_API_ADDRESS + "admin/buyer"
       );
       const data = response.data;
-      // const response = await axios.get("/fetchData");
-      // const data = response.data;
 
-      // console.log(data);
       if (Array.isArray(data)) {
         const addPackage = data.map((item) => ({
           ...item,
@@ -22,11 +19,6 @@ const useFetchData = (setUserList) => {
       } else {
         // 응답이 배열이 아닌 경우 처리
         // console.log("Response data is not an array:", data);
-
-        // const response = await axios.get(
-        //   import.meta.env.VITE_API_ADDRESS + "admin/buyer"
-        // );
-        // setUserList(response.data.data);
 
         const addPackage = data.data.map((item) => ({
           ...item,

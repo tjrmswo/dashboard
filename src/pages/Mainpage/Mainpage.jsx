@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
 
+//libraries
+import { signModalState, EbookModalState } from "../../atom/state";
+import { useRecoilValue } from "recoil";
+
 // components
 import BuyerList from "../../components/BuyerList/BuyerList";
 import SignupList from "../../components/SignupList/SignupList";
@@ -11,6 +15,8 @@ import { Container } from "./styles";
 
 const Mainpage = () => {
   const [clicked, setClicked] = useState("");
+  const isSign = useRecoilValue(signModalState);
+  const isEbook = useRecoilValue(EbookModalState);
 
   const handlePage = (e) => {
     const { className } = e.target;
@@ -28,7 +34,7 @@ const Mainpage = () => {
     console.log(clicked);
   }, [clicked]);
   return (
-    <Container isclicked={clicked}>
+    <Container isclicked={clicked} isSign={isSign} isEbook={isEbook}>
       <div className="drawer">
         <div className="tinyContainer">
           <div className="mainStatistics" onClick={(e) => handlePage(e)}>

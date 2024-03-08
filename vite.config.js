@@ -10,15 +10,11 @@ export default defineConfig({
   build: {
     manifest: true,
     rollupOptions: {
-      input: "main.jsx",
+      input: "src/main.jsx",
     },
   },
   resolve: {
-    alias: [
-      { find: "@", replacement: "./src" },
-      { find: "@pages", replacement: "./src/pages" },
-      { find: "@components", replacement: "./src/components" },
-    ],
+    alias: [{ find: "@", replacement: "/src" }],
   },
   optimizeDeps: {
     exclude: ["js-big-decimal"],

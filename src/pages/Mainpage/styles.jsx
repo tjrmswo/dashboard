@@ -2,7 +2,10 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   color: black;
-  background-color: white;
+  background-color: ${(props) =>
+    props.isSign === true || props.isEbook == true
+      ? "rgba(0, 0, 0, 0.7)"
+      : "white"};
 
   .drawer {
     display: grid;
@@ -11,7 +14,8 @@ export const Container = styled.div`
     left: 0;
     width: 15vw;
     height: 100vh;
-    background-color: #dcebc9;
+    background-color: ${(props) =>
+      props.isSign === true || props.isEbook == true ? "#dcebc91a" : "#dcebc9"};
   }
   .tinyContainer {
     width: 8vw;
@@ -28,6 +32,7 @@ export const Container = styled.div`
       props.isclicked === "mainStatistics" ? "gray" : "black"};
     font-size: 1.2rem;
   }
+
   .SignupList {
     margin-bottom: 2rem;
     border-bottom: 2px solid gray;
@@ -36,6 +41,7 @@ export const Container = styled.div`
     color: ${(props) => (props.isclicked === "SignupList" ? "gray" : "black")};
     font-size: 1.2rem;
   }
+
   .BuyerList {
     margin-bottom: 2rem;
     border-bottom: 2px solid gray;

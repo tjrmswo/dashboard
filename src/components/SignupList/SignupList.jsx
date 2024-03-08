@@ -9,14 +9,14 @@ import { BarChart } from "@mui/x-charts";
 import { PieChart } from "@mui/x-charts";
 import { DataGrid } from "@mui/x-data-grid";
 import { useRecoilState } from "recoil";
-import { signupEntireUserList, deleteCellData } from "../../atom/state";
+import { signupEntireUserList, deleteCellData } from "@/atom/state";
 
 //constants
-import { xAxis } from "../../constans/SignupList_Constants/BarChart/BarChartElement";
-import { series } from "../../constans/SignupList_Constants/BarChart/BarChartElement";
-import { seriesPieChart } from "../../constans/SignupList_Constants/PieChart/PieChartElement";
-import { columnData } from "../../constans/SignupList_Constants/Table/tableColumn_user";
-import { rowData } from "../../constans/SignupList_Constants/Table/tableData";
+import { xAxis } from "@/constans/SignupList_Constants/BarChart/BarChartElement";
+import { series } from "@/constans/SignupList_Constants/BarChart/BarChartElement";
+import { seriesPieChart } from "@/constans/SignupList_Constants/PieChart/PieChartElement";
+import { columnData } from "@/constans/SignupList_Constants/Table/tableColumn_user";
+import { rowData } from "@/constans/SignupList_Constants/Table/tableData";
 
 const SignupList = () => {
   // Entire user data

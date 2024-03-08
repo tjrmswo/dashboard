@@ -1,5 +1,6 @@
 import { atom } from "recoil";
 
+// 답변&삽화 데이터
 export const csvData = atom({
   key: "imgData",
   default: {
@@ -14,6 +15,7 @@ export const csvData = atom({
   },
 });
 
+// csv파일 이름
 export const csvTitle = atom({
   key: "csvHeader",
   default: {
@@ -25,12 +27,31 @@ export const csvTitle = atom({
   },
 });
 
+// 구매자 전체 유저 데이터
 export const signupEntireUserList = atom({
   key: "signupList",
   default: [],
 });
 
+// 삭제할 셀 데이터
 export const deleteCellData = atom({
   key: "deleteCellData",
+  default: [],
+});
+
+// 표지 모달 상태
+export const signModalState = atom({
+  key: "modalState",
+  default: false,
+});
+
+export const EbookModalState = atom({
+  key: "ebookModalState",
+  default: false,
+});
+
+// 구매자 리스트 선택된 유저 데이터
+export const selectBuyerListData = atom({
+  key: "selectBuyerListData",
   default: [],
 });

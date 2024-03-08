@@ -4,7 +4,7 @@ import axios from "axios";
 
 const useGetUserData = (
   data,
-  setUserData,
+  setSelectedUserData,
   setRecoilcsvData,
   setRecoilcsvTitle
 ) => {
@@ -30,13 +30,15 @@ const useGetUserData = (
         userSubscribeStory: data.row.userSubscribeStory,
       },
     });
-    setUserData([
+    setSelectedUserData([
       {
         userId: data.row.userId,
         userName: data.row.userName,
         userPhoneNumber: data.row.phone,
         userAddress: data.row.address,
         userNickname: data.row.userNickname,
+        userSubscribeStory: data.row.userSubscribeStory,
+        bookCover: userSubscribe.bookCover,
       },
     ]);
   }
@@ -49,8 +51,14 @@ async function getUserSubscribe(userSubscribeStory, userName) {
   const res = await axios.get(
     import.meta.env.VITE_API_ADDRESS + `admin/answers/${userSubscribeStory}`
   );
-  // console.log(res);
+  const response = await axios.get(
+    import.meta.env.VITE_API_ADDRESS + `admin/bockcover/${userSubscribeStory}`
+  );
+
+  console.log(response);
+
   const data = res.data.data;
+  const bookCover = response.data.data;
 
   const csvData = data.answers.map((datas) => {
     return `${datas[0]} ` + datas[1];
@@ -61,5 +69,5 @@ async function getUserSubscribe(userSubscribeStory, userName) {
       ? `${userName}_${userSubscribeStory}`
       : "userData.csv";
 
-  return { Img: res.data.data.imgLink, csvData, csvFilename };
+  return { Img: res.data.data.imgLink, csvData, csvFilename, bookCover };
 }
