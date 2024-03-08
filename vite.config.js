@@ -8,6 +8,7 @@ export default defineConfig({
     port: 3000,
   },
   build: {
+    chunkSizeWarningLimit: 1600,
     manifest: true,
     rollupOptions: {
       input: "src/main.jsx",
