@@ -24,17 +24,14 @@ import {
   BuyerColor,
   SigupUserColor,
 } from "./styles";
-import { COLUMNS } from "../../constans/MainStatistics_Constants/table/tableColumn";
-import { nodes } from "../../constans/MainStatistics_Constants/table/data";
+import { COLUMNS } from "@/constans/MainStatistics_Constants/table/tableColumn";
+import { nodes } from "@/constans/MainStatistics_Constants/table/data";
 import {
   xAxis,
   series,
-} from "../../constans/MainStatistics_Constants/LineChart/LineChartElements";
-import { Themes } from "../../constans/MainStatistics_Constants/table/tableTheme";
-import { dateSwiper } from "../../constans/MainStatistics_Constants/Swiper/Swiperdata";
-
-//custom hooks
-// import useGetDate from "../../hooks/useGetDate";
+} from "@/constans/MainStatistics_Constants/LineChart/LineChartElements";
+import { Themes } from "@/constans/MainStatistics_Constants/table/tableTheme";
+import { dateSwiper } from "@/constans/MainStatistics_Constants/Swiper/Swiperdata";
 
 const MainStatistics = () => {
   //월, 일 단위 버튼

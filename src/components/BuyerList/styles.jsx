@@ -7,6 +7,7 @@ export const Container = styled.div`
   grid-template-rows: 0.6fr 0.4fr 2fr;
   color: black;
   height: 100vh;
+
   .buyerList {
     display: grid;
     align-items: end;
@@ -30,7 +31,8 @@ export const Container = styled.div`
     display: grid;
     align-items: center;
     justify-content: center;
-    background-color: #dcebc9;
+    background-color: ${(props) =>
+      props.isSign === true || props.isEbook == true ? "dcebc91a" : "#dcebc9"};
     grid-column: 2 / span 3;
     font-size: 1.9rem;
     font-family: "GmarketSans-Medium";
