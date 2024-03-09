@@ -8,7 +8,7 @@ const useFetchData = (setUserList) => {
       // );
       const response = await axios.get("/admin/buyer");
       const data = response.data;
-      console.log(data);
+      console.log(response);
 
       if (Array.isArray(data)) {
         const addPackage = data.map((item) => ({
