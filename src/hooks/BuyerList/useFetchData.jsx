@@ -19,7 +19,7 @@ const useFetchData = (setUserList) => {
         setUserList(addPackage);
       } else {
         // 응답이 배열이 아닌 경우 처리
-        // console.log("Response data is not an array:", data);
+        console.log("Response data is not an array:", data);
 
         const addPackage = data.data.map((item) => ({
           ...item,
