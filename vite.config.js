@@ -7,10 +7,10 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
-      "${VITE_API_ADDRESS}": {
-        target: "localhost:3000",
+      "/api": {
+        target: "http://inklnk.kro.kr:8085/",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
+        secure: true,
       },
     },
   },
