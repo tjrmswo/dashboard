@@ -166,7 +166,6 @@ export const columnBuyerList = [
             type="file"
             onChange={(e) => handleSign(e)}
             isvisible={signState}
-            isDataIn={user[0].bookCover}
             accept="image/*"
           />
           <label htmlFor="ebook" className="ebookTitle">
@@ -177,7 +176,6 @@ export const columnBuyerList = [
             type="file"
             onChange={(e) => handleEbook(e)}
             isvisible={ebookState}
-            isDataIn={user[0].bookCover}
             accept="image/*"
           />
         </FileUploadContainer>
