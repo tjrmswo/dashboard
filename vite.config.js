@@ -8,7 +8,7 @@ export default defineConfig({
     port: 3000,
     proxy: {
       "/api": {
-        target: "http://inklnk.kro.kr:8085/",
+        target: "https://inklnk.kro.kr:8085/",
         changeOrigin: true,
         secure: true,
       },
