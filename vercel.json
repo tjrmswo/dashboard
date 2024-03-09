@@ -3,7 +3,7 @@
     { "source": "/(.*)", "destination": "/" },
     {
       "source": "/api/:path*",
-      "destination": "https://inklnk.kro.kr/:path"
+      "destination": "https://inklnk.kro.kr/api/:path"
     }
   ],
   "headers": [
