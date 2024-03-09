@@ -3,12 +3,12 @@
     { "source": "/(.*)", "destination": "/" },
     {
       "source": "/api/:path*",
-      "destination": "https://inklnk.kro.kr/api/:path"
+      "destination": "http://inklnk.kro.kr:8085/:path"
     }
   ],
   "headers": [
     {
-      "source": "/api/(.*)",
+      "source": "/api/admin/:path*",
       "headers": [
         { "key": "Access-Control-Allow-Credentials", "value": "true" },
         { "key": "Access-Control-Allow-Origin", "value": "*" },
