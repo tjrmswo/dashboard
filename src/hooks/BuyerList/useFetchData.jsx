@@ -3,10 +3,10 @@ import axios from "axios";
 const useFetchData = (setUserList) => {
   async function fetchData() {
     try {
-      const response = await axios.get(
-        import.meta.env.VITE_API_ADDRESS + "/admin/buyer"
-      );
-      // const response = await axios.get("/api/admin/buyer ");
+      // const response = await axios.get(
+      //   import.meta.env.VITE_API_ADDRESS + "/admin/buyer"
+      // );
+      const response = await axios.get("/api/admin/buyer ");
       const data = response.data;
       console.log(response);
 
