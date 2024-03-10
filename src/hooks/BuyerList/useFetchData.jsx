@@ -7,7 +7,7 @@ const useFetchData = (setUserList) => {
       //   import.meta.env.VITE_API_ADDRESS + "/admin/buyer"
       // );
       const response = await axios.get(
-        import.meta.env.VITE_API_ADDRESS + "/admin/buyer "
+        import.meta.env.VITE_API_ADDRESS + "admin/buyer "
       );
       const data = response.data;
       console.log("response: ", response);
