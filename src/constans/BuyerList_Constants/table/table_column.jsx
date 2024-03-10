@@ -106,8 +106,7 @@ export const columnBuyerList = [
           formdata.append("file", files[0]);
           try {
             const res = await axios.post(
-              import.meta.env.VITE_API_ADDRESS +
-                `admin/ebooks/${user[0].userSubscribeStory}`,
+              `http://inklnk.kro.kr:8085/admin/ebooks/95`,
               formdata,
               {
                 headers: {
