@@ -6,11 +6,13 @@ const useFetchData = (setUserList) => {
       // const response = await axios.get(
       //   import.meta.env.VITE_API_ADDRESS + "/admin/buyer"
       // );
-      const response = await axios.get("/api/admin/buyer", {
-        headers: { "Access-Control-Allow-Origin": "*" },
-      });
+      const response = await axios.get("/api/admin/buyer");
+      const respons = await axios.get(
+        import.meta.env.VITE_API_ADDRESS + "/admin/buyer"
+      );
+      const res = await axios.get("admin/buyer");
       const data = response.data;
-      console.log("response: ", response);
+      console.log("response: ", response, respons, res);
 
       if (Array.isArray(data)) {
         const addPackage = data.map((item) => ({
