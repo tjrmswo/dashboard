@@ -48,11 +48,9 @@ const useGetUserData = (
 export default useGetUserData;
 
 async function getUserSubscribe(userSubscribeStory, userName) {
-  const res = await axios.get(
-    import.meta.env.VITE_API_ADDRESS + `admin/answers/${userSubscribeStory}`
-  );
+  const res = await axios.get(`/api/admin/answers/${userSubscribeStory}`);
   const response = await axios.get(
-    import.meta.env.VITE_API_ADDRESS + `admin/bockcover/${userSubscribeStory}`
+    `/api/admin/bockcover/${userSubscribeStory}`
   );
 
   console.log(response);
