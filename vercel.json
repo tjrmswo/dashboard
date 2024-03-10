@@ -2,8 +2,8 @@
   "rewrites": [
     { "source": "/(.*)", "destination": "/" },
     {
-      "source": "/api/:path*",
-      "destination": "http://inklnk.kro.kr:8085/:path*"
+      "source": "/api",
+      "destination": "http://inklnk.kro.kr:8085"
     }
   ],
   "headers": [
