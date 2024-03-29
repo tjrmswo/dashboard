@@ -11,7 +11,7 @@ export default defineConfig({
     chunkSizeWarningLimit: 1600,
     manifest: true,
     rollupOptions: {
-      input: "src/main.jsx",
+      input: "./index.html",
     },
   },
   resolve: {

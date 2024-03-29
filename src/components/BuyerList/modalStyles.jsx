@@ -38,6 +38,17 @@ export const ModalContainer = styled.div`
     width: 100%;
     text-align: center;
   }
+  .editButton {
+    width: 12vw;
+    background-color: #ebfcd6;
+    border: 2px solid #aaeb5a;
+    &:focus {
+      outline: none;
+    }
+    font-size: 1.4rem;
+    border-radius: 1rem;
+    font-family: "GmarketSans-Medium";
+  }
 `;
 
 // close button
@@ -52,13 +63,13 @@ export const SignImg = styled.img`
   height: 60vh;
 `;
 
-export const EditButton = styled.button`
+export const EditButton = styled.input`
   width: 12vw;
   background-color: #ebfcd6;
-  border: 2px solid #aaeb5a;
   &:focus {
     outline: none;
   }
+  border: none;
   font-size: 1.4rem;
   border-radius: 1rem;
   font-family: "GmarketSans-Medium";
