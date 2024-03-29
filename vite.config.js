@@ -26,9 +26,7 @@ export default defineConfig({
     chunkSizeWarningLimit: 1600,
     manifest: true,
     rollupOptions: {
-      input: {
-        main: "./index.html",
-      },
+      input: "./index.html",
     },
   },
   resolve: {

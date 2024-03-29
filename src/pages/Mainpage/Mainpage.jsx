@@ -30,6 +30,7 @@ const Mainpage = () => {
   };
 
   const componentToShow = componentList[clicked];
+
   useEffect(() => {
     console.log(clicked);
   }, [clicked]);
