@@ -8,8 +8,8 @@ export const CSVDownloadButton = styled.div`
   }
   background-color: ${(props) => {
     if (props.isSign === true || props.isEbook === true) {
-      return "#dcebc91a";
-    } else if (props.isCompleted && props.imgLink) {
+      return "#dcebc491a";
+    } else if (props.iscompleted && props.imgLink) {
       return "yellow";
     } else {
       return "#dcebc9";
@@ -58,9 +58,11 @@ export const FileUploadContainer = styled.div`
         return "#dcebc91a";
       } else if (props.isSubmitted) {
         return "#949591";
-      } else if (props.imgStatus) {
-        return "yellow";
-      } else {
+      }
+      // else if (props.imgStatus) {
+      //   return "yellow";
+      // }
+      else {
         return "#dcebc9";
       }
     }};

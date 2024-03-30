@@ -37,16 +37,24 @@ export const ModalContainer = styled.div`
   .buttonContainer {
     width: 100%;
     text-align: center;
+
+    input[type="file"] {
+      width: 0px;
+    }
   }
   .editButton {
-    width: 12vw;
+    width: 15vw;
     background-color: #ebfcd6;
     border: 2px solid #aaeb5a;
     &:focus {
       outline: none;
     }
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     border-radius: 1rem;
+    padding-left: 5rem;
+    padding-right: 5rem;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
     font-family: "GmarketSans-Medium";
   }
 `;
@@ -61,16 +69,4 @@ export const CancelButton = styled.div`
 export const SignImg = styled.img`
   width: 25vw;
   height: 60vh;
-`;
-
-export const EditButton = styled.input`
-  width: 12vw;
-  background-color: #ebfcd6;
-  &:focus {
-    outline: none;
-  }
-  border: none;
-  font-size: 1.4rem;
-  border-radius: 1rem;
-  font-family: "GmarketSans-Medium";
 `;

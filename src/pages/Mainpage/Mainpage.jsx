@@ -32,7 +32,7 @@ const Mainpage = () => {
   const componentToShow = componentList[clicked];
 
   useEffect(() => {
-    console.log(clicked);
+    // console.log(clicked);
   }, [clicked]);
   return (
     <Container isclicked={clicked} isSign={isSign} isEbook={isEbook}>

@@ -7,11 +7,11 @@ import { RecoilRoot } from "recoil";
 
 import "vite/modulepreload-polyfill";
 
-//msw
-import { worker } from "./mocks/brower.jsx";
-if (import.meta.env.NODE_ENV !== "development") {
-  worker.start();
-}
+// //msw
+// import { worker } from "./mocks/brower.jsx";
+// if (import.meta.env.NODE_ENV !== "development") {
+//   worker.start();
+// }
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);

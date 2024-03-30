@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 //hooks
 import { useEffect, useState } from "react";
 
@@ -55,18 +56,18 @@ const MainStatistics = () => {
       if (slides.length === 0) {
         setSlides((prev) => [...prev, `${firstTime}~${secondTime}`]);
         firstTime = moment(secondTime).add(1, "days").format("YYYY.MM.DD");
-        console.log(firstTime, secondTime);
+        // console.log(firstTime, secondTime);
         secondTime = "";
       } else {
         secondTime = moment(firstTime).add(6, "days").format("YYYY.MM.DD");
-        console.log(firstTime, secondTime);
+        // console.log(firstTime, secondTime);
         setSlides((prev) => [...prev, `${firstTime}~${secondTime}`]);
         firstTime = moment(secondTime).add(1, "days").format("YYYY.MM.DD");
         secondTime = "";
       }
       lengths -= 1;
     }
-    console.log(slides);
+    // console.log(slides);
   };
 
   const handleButton = (button) => {
