@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect } from "react";
 
@@ -44,8 +45,8 @@ const SignupList = () => {
   };
 
   useEffect(() => {
-    console.log("SignupUserList:", recoilSignupUserList);
-    console.log("recoilDeleteCellData: ", recoilDeleteCellData);
+    // console.log("SignupUserList:", recoilSignupUserList);
+    // console.log("recoilDeleteCellData: ", recoilDeleteCellData);
   }, [recoilSignupUserList, recoilDeleteCellData]);
   return (
     <Container>

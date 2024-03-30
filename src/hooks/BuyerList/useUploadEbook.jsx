@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const useUploadEbook = (data, isEbook, setIsEbook, user, setUser) => {
+const useUploadEbook = (data, isEbook, setIsEbook, user) => {
   async function uploadEbook() {
-    const { id, files } = data.target;
+    const { files } = data.target;
 
     const formdata = new FormData();
     formdata.append("file", files[0]);
@@ -21,12 +21,6 @@ const useUploadEbook = (data, isEbook, setIsEbook, user, setUser) => {
     } catch (err) {
       console.log(err);
     }
-
-    setUser((prev) => ({
-      ...prev,
-      uploadtype: id,
-    }));
-    setIsEbook(!isEbook);
   }
 
   return uploadEbook;

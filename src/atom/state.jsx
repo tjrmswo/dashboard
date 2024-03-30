@@ -9,7 +9,6 @@ export const csvData = atom({
       {
         people_answer: "",
         ai_answer: "",
-        etc: "",
       },
     ],
   },

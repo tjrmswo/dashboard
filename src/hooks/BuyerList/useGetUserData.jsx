@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 //libraries
 import axios from "axios";
-import { db } from "@/mocks/db";
 
 const useGetUserData = (
   data,
@@ -20,9 +19,8 @@ const useGetUserData = (
       csvFilename: userSubscribe.csvFilename,
       answer: [
         {
-          people_answer: userSubscribe.csvData[0],
-          ai_answer: userSubscribe.csvData[1],
-          etc: userSubscribe.csvData[2],
+          people_answer: userSubscribe.userAnswer.answers[0][0],
+          ai_answer: userSubscribe.userAnswer.answers[0][1],
         },
       ],
     });
@@ -61,46 +59,26 @@ export default useGetUserData;
 
 async function getUserSubscribe(userSubscribeStory, userName) {
   // recent api
-  // answer
-  // const res = await axios.get(
-  //   import.meta.env.VITE_API_ADDRESS + `/admin/answers/${userSubscribeStory}`
-  // );
-  // const response = await axios.get(
-  //   import.meta.env.VITE_API_ADDRESS + `/admin/bockcover/${userSubscribeStory}`
-  // );
-  // const data = res.data.data;
-  // const bookCover = response.data.data;
-  // console.log(bookCover);
-  // const csvData = data.answers.map((datas) => {
-  //   return `${datas[0]} ` + datas[1];
-  // });
+  // 답변 & 삽화
+  const answer = await axios.get(
+    import.meta.env.VITE_API_ADDRESS + `/admin/answers/${userSubscribeStory}`
+  );
+  const userAnswer = answer.data.data;
+  console.log(userAnswer);
 
-  // msw api
-  // 삽화
-  const repo = await axios.get(`/getImg/${userSubscribeStory}`);
-  const data = repo.data.data;
-  // 표지 검색
-  const bookCover = db.sign.findFirst({
-    where: {
-      userSubscribeStoryId: {
-        equals: `${userSubscribeStory}`,
-      },
-    },
-  });
-  const { sign } = bookCover;
+  // 표지
+  const sign = await axios.get(
+    import.meta.env.VITE_API_ADDRESS + `/admin/bockcover/${userSubscribeStory}`
+  );
+  const Sign = sign.data.data;
+  console.log(Sign);
 
-  // 전자책 검색
-  const getEbook = db.ebook.findFirst({
-    where: {
-      userSubscribeStoryId: {
-        equals: `${userSubscribeStory}`,
-      },
-    },
-  });
-
-  const csvData = data[0].answers.map((datas) => {
-    return `${datas[0]} ` + datas[1];
-  });
+  // 전자책
+  const ebook = await axios.get(
+    import.meta.env.VITE_API_ADDRESS + `/admin/adminImage/${userSubscribeStory}`
+  );
+  const Ebook = ebook.data.data;
+  console.log(Ebook);
 
   // recent api
   const csvFilename =
@@ -109,13 +87,10 @@ async function getUserSubscribe(userSubscribeStory, userName) {
       : "userData.csv";
 
   return {
-    Img: data[0].imgLink,
-    csvData,
+    Img: userAnswer.imgLink,
+    userAnswer,
     csvFilename,
-    sign: sign,
-    ebook: getEbook.ebook,
+    sign: Sign,
+    ebook: Ebook,
   };
-
-  // recent api
-  // return { Img: res.data.data.imgLink, csvData, csvFilename, bookCover };
 }

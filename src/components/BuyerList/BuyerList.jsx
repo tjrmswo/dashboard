@@ -35,7 +35,6 @@ import { answerHeaders } from "@/constans/BuyerList_Constants/csv/CSVAnswerHeade
 
 //components
 import SignModal from "./Modal";
-import EbookModal from "./ebookModal";
 
 //custom hooks
 import UseGetUserData from "@/hooks/BuyerList/useGetUserData";
@@ -89,50 +88,13 @@ const BuyerList = () => {
     fetch();
   };
 
-  //Upload Img
-  const imgUpload = (e) => {
-    // const { files } = e.target;
-    // const uploadFile = files[0];
-    // const reader = new FileReader();
-    // reader.readAsDataURL(uploadFile);
-    // reader.onload = async () => {
-    //   console.log(reader.result);
-    //   const imgData = reader.result;
-    //   try {
-    //     const response = await axios.post("/upload", {
-    //       picture: imgData,
-    //     });
-    //     console.log(response);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // };
-  };
-
-  // search category
-  const searchCategory = (searchData) => {
-    const SearchCategory = UseSearchCategory(
-      searchData,
-      userList,
-      category,
-      setSearchData
-    );
-    SearchCategory();
-  };
-
   useEffect(() => {
     fetchData();
   }, [setUserList]);
 
   useEffect(() => {
-    // const getalluser = db.sign.getAll();
-    // console.log(getalluser);
-    // console.log("userList: ", userList);
-    // console.log(db.ebook.getAll());
     console.log("selectedUserData: ", selectedUserData);
-    console.log("bookCover: ", bookCover);
-    console.log("userList: ", userList);
-  }, [userList, selectedUserData, recoilcsvData, bookCover]);
+  }, [selectedUserData]);
 
   return (
     <Container isSign={isSign} isEbook={isEbook}>
@@ -149,10 +111,10 @@ const BuyerList = () => {
           columns={[
             { field: "userId", headerName: "번호", width: 100 },
             { field: "userName", headerName: "이름", width: 120 },
-            { field: "userPhoneNumber", headerName: "전화번호", width: 145 },
+            { field: "phone", headerName: "전화번호", width: 145 },
             { field: "userNickname", headerName: "닉네임", width: 100 },
             {
-              field: "userAddress",
+              field: "address",
               headerName: "주소",
               width: 220,
             },
@@ -167,7 +129,7 @@ const BuyerList = () => {
               headerName: "패키지",
               width: 120,
               disableExport: true,
-            }, // name +
+            },
             {
               field: "package",
               headerName: "상태",
@@ -214,7 +176,7 @@ const BuyerList = () => {
                       isSign={isSign}
                       isEbook={isEbook}
                       imgLink={row.imgLink}
-                      isCompleted={isCompleted}
+                      iscompleted={isCompleted}
                     >
                       <CSVLink
                         data={data.answer}
@@ -238,7 +200,8 @@ const BuyerList = () => {
               renderCell: (params) => {
                 const { row } = params;
                 const { imgStatus } = params.row;
-                const isSubmitted = row.package === "제출";
+                const isSubmitted =
+                  row.answerCount === row.questionCount ? "제출" : null;
                 // 선택된 유저 데이터
                 const [user, setUser] = useRecoilState(selectBuyerListData);
                 // console.log(user);
@@ -267,8 +230,7 @@ const BuyerList = () => {
                     data,
                     isEbook,
                     setIsEbook,
-                    user,
-                    setUser
+                    user
                   );
                   uplodaEbook();
                 };
@@ -286,7 +248,7 @@ const BuyerList = () => {
 
                     a.href = url;
                     // 추 후 선택된 유저 이름을 넣을 수 있게 변경
-                    a.download = `유저데이터.pdf`;
+                    a.download = `${recoilcsvData.csvFilename}.pdf`;
                     document.body.appendChild(a);
                     a.click();
                     window.URL.revokeObjectURL(url);
@@ -405,7 +367,6 @@ const BuyerList = () => {
       </div>
       <div></div>
       <div>{isSign === true && <SignModal />}</div>
-      <div>{isEbook === true && <EbookModal />}</div>
     </Container>
   );
 };
