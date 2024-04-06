@@ -1,22 +1,23 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-unused-vars */
 
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
 // components
-import { ModalContainer, CancelButton, SignImg } from "./modalStyles";
+import { ModalContainer, CancelButton, SignImg } from './modalStyles';
 
 // libraries
-import { signModalState, selectBuyerListData } from "@/atom/state";
-import { useRecoilState } from "recoil";
+import { signModalState, selectBuyerListData, checkUserData } from '@/atom/state';
+import { useRecoilState } from 'recoil';
 
 // custom hooks
-import useModifySign from "@/hooks/BuyerList/useModifySign";
+import useModifySign from '@/hooks/BuyerList/useModifySign';
 
 const Modal = () => {
   // sign Img
   const [user, setUser] = useRecoilState(selectBuyerListData);
   const [isSign, setIsSign] = useRecoilState(signModalState);
+  const [downloadData, setDownloadData] = useRecoilState(checkUserData);
 
   // close modal
   const closeModal = () => {
@@ -29,8 +30,9 @@ const Modal = () => {
   };
 
   useEffect(() => {
-    // console.log("user: ", user);
-  }, [user]);
+    console.log('user: ', user);
+    console.log('downloadData: ', downloadData);
+  }, [user, downloadData]);
 
   return (
     <ModalContainer>
@@ -39,18 +41,13 @@ const Modal = () => {
         <CancelButton onClick={closeModal}>X</CancelButton>
       </div>
       <div className="imgContainer">
-        <SignImg src={user[0].sign} />
+        <SignImg src={downloadData[0].sign !== '' && downloadData[0].sign} />
       </div>
       <div className="buttonContainer">
         <label htmlFor="edit" className="editButton">
           수정
         </label>
-        <input
-          id="edit"
-          type="file"
-          onChange={(e) => modifySign(e)}
-          accept="image/jpeg"
-        />
+        <input id="edit" type="file" onChange={(e) => modifySign(e)} accept="image/jpeg" />
       </div>
     </ModalContainer>
   );

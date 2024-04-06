@@ -5,7 +5,6 @@ import "./configs/recoil.jsx";
 //recoil
 import { RecoilRoot } from "recoil";
 
-import "vite/modulepreload-polyfill";
 
 // //msw
 // import { worker } from "./mocks/brower.jsx";

@@ -1,14 +1,15 @@
-import { atom } from "recoil";
+/* eslint-disable react-refresh/only-export-components */
+import { atom } from 'recoil';
 
 // 답변&삽화 데이터
 export const csvData = atom({
-  key: "imgData",
+  key: 'imgData',
   default: {
-    csvFilename: "csvData.csv",
+    csvFilename: 'csvData.csv',
     answer: [
       {
-        people_answer: "",
-        ai_answer: "",
+        people_answer: '',
+        ai_answer: '',
       },
     ],
   },
@@ -16,63 +17,60 @@ export const csvData = atom({
 
 // csv파일 이름
 export const csvTitle = atom({
-  key: "csvHeader",
+  key: 'csvHeader',
   default: {
-    img: "",
-    userData: {
-      userName: "",
-      userSubscribeStory: 0,
-    },
+    img: '',
+    userData: '',
   },
 });
 
 // 구매자 전체 유저 데이터
 export const signupEntireUserList = atom({
-  key: "signupList",
+  key: 'signupList',
   default: [],
 });
 
 // 삭제할 셀 데이터
 export const deleteCellData = atom({
-  key: "deleteCellData",
+  key: 'deleteCellData',
   default: [],
 });
 
 // 표지 모달 상태
 export const signModalState = atom({
-  key: "modalState",
+  key: 'modalState',
   default: false,
 });
 
 export const EbookModalState = atom({
-  key: "ebookModalState",
+  key: 'ebookModalState',
   default: false,
 });
 
 // 구매자 리스트 선택된 유저 데이터
 export const selectBuyerListData = atom({
-  key: "selectBuyerListData",
+  key: 'selectBuyerListData',
   default: [
     {
       userId: 0,
-      userName: "",
-      userPhoneNumber: "",
-      userAddress: "",
-      userNickname: "",
+      userName: '',
+      userPhoneNumber: '',
+      userAddress: '',
+      userNickname: '',
       userSubscribeStory: 0,
-      sign: "",
-      ebook: "",
-      uploadtype: "",
+      sign: '',
+      ebook: '',
+      uploadtype: '',
     },
   ],
 });
 
 export const checkUserData = atom({
-  key: "bookCovers",
+  key: 'bookCovers',
   default: [
     {
-      sign: "",
-      ebook: "",
+      sign: '',
+      ebook: '',
     },
   ],
 });

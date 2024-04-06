@@ -1,10 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
 //libraries
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { useRecoilValue, useRecoilState } from "recoil";
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import {
   csvData,
   csvTitle,
@@ -12,14 +13,14 @@ import {
   selectBuyerListData,
   EbookModalState,
   checkUserData,
-} from "@/atom/state";
-import { CSVLink } from "react-csv";
+} from '@/atom/state';
+import { CSVLink } from 'react-csv';
 
 //css
-import "@/font.css";
+import '@/font.css';
 
 //styles
-import { Container } from "./styles";
+import { Container } from './styles';
 import {
   CSVDownloadButton,
   SubmittedCSVDownloadButton,
@@ -28,22 +29,23 @@ import {
   FileUploadContainer,
   SignBtn,
   EbookBtn,
-} from "@/constans/BuyerList_Constants/table/styles";
+} from '@/constans/BuyerList_Constants/table/styles';
 
 //constants
-import { answerHeaders } from "@/constans/BuyerList_Constants/csv/CSVAnswerHeader";
+import { answerHeaders } from '@/constans/BuyerList_Constants/csv/CSVAnswerHeader';
 
 //components
-import SignModal from "./Modal";
+import SignModal from './Modal';
 
 //custom hooks
-import UseGetUserData from "@/hooks/BuyerList/useGetUserData";
-import UseSearchCategory from "@/hooks/BuyerList/useSearchCategory";
-import UseFetchData from "@/hooks/BuyerList/useFetchData";
-import useDownloadImg from "@/hooks/BuyerList/useDownloadImg";
-import useUploadEbook from "@/hooks/BuyerList/useUploadEbook";
-import useUploadSign from "@/hooks/BuyerList/useUploadSign";
-import axios from "axios";
+import UseGetUserData from '@/hooks/BuyerList/useGetUserData';
+import UseFetchData from '@/hooks/BuyerList/useFetchData';
+import useDownloadImg from '@/hooks/BuyerList/useDownloadImg';
+import useUploadEbook from '@/hooks/BuyerList/useUploadEbook';
+import useUploadSign from '@/hooks/BuyerList/useUploadSign';
+import useDownloadEbook from '@/hooks/BuyerList/useDownloadEbook';
+import useGetSignEbookData from '@/hooks/BuyerList/useGetSignEbookData';
+import useGetAnswerData from '@/hooks/BuyerList/useGetAnswerData';
 
 const BuyerList = () => {
   // modal status
@@ -54,33 +56,50 @@ const BuyerList = () => {
   const [userList, setUserList] = useState([]);
 
   // select user data
-  const [selectedUserData, setSelectedUserData] =
-    useRecoilState(selectBuyerListData);
+  const [selectedUserData, setSelectedUserData] = useRecoilState(selectBuyerListData);
 
   // ai answer and manager answer
-  const [recoilcsvData, setRecoilcsvData] = useRecoilState(csvData);
-  const [recoilcsvTitle, setRecoilcsvTitle] = useRecoilState(csvTitle);
+  const [recoilAnswerDownloadData, setRecoilAnswerDownloadData] = useRecoilState(csvData);
+  const [recoilImgDownloadData, setRecoilImgDownloadData] = useRecoilState(csvTitle);
+  const [userAnswer, setUserAnswer] = useState({
+    csvFilename: 'csvData.csv',
+    answer: [
+      {
+        people_answer: '',
+        ai_answer: '',
+      },
+    ],
+  });
 
-  // search data(input)
-  const [searchData, setSearchData] = useState([]);
-
-  // select category(input)
-  const [category, setCategory] = useState("");
+  const { csvFilename } = userAnswer;
 
   // book cover
   const [bookCover, setBookCover] = useRecoilState(checkUserData);
 
   //Get userData
   const getUserData = (data) => {
-    const GetUserData = UseGetUserData(
+    const userData = UseGetUserData(data, setSelectedUserData, setRecoilImgDownloadData);
+    userData();
+
+    // sign ebook data
+    const signEbook = useGetSignEbookData(data, setBookCover, setSelectedUserData);
+    signEbook();
+
+    // ai answer and user answer and img data
+    const answerData = useGetAnswerData(
       data,
-      setSelectedUserData,
-      setRecoilcsvData,
-      setRecoilcsvTitle,
-      setBookCover
+      setRecoilAnswerDownloadData,
+      setRecoilImgDownloadData,
+      recoilAnswerDownloadData,
+      setUserAnswer,
+      userAnswer
     );
-    GetUserData();
+    answerData();
   };
+
+  // const get = (data) => {
+  //   console.log(data);
+  // }
 
   //Fetch UserList
   const fetchData = async () => {
@@ -90,11 +109,16 @@ const BuyerList = () => {
 
   useEffect(() => {
     fetchData();
-  }, [setUserList]);
-
+  }, []);
   useEffect(() => {
-    console.log("selectedUserData: ", selectedUserData);
-  }, [selectedUserData]);
+    // console.log("selectedUserData: ", selectedUserData);
+    // console.log('recoilAnswerDownloadData: ', recoilAnswerDownloadData);
+    // console.log('answerHeaders: ', answerHeaders);
+    // console.log('datass: ', datass);
+    console.log('userAnswer: ', userAnswer);
+    console.log('bookCover: ', bookCover);
+    console.log('userList: ', userList);
+  }, [bookCover, userAnswer]);
 
   return (
     <Container isSign={isSign} isEbook={isEbook}>
@@ -109,61 +133,72 @@ const BuyerList = () => {
           getRowId={(row) => row.userSubscribeStory}
           rows={userList}
           columns={[
-            { field: "userId", headerName: "번호", width: 100 },
-            { field: "userName", headerName: "이름", width: 120 },
-            { field: "phone", headerName: "전화번호", width: 145 },
-            { field: "userNickname", headerName: "닉네임", width: 100 },
+            { field: 'userId', headerName: '번호', width: 100 },
+            { field: 'userName', headerName: '이름', width: 120 },
+            { field: 'phone', headerName: '전화번호', width: 145 },
+            { field: 'userNickname', headerName: '닉네임', width: 100 },
             {
-              field: "address",
-              headerName: "주소",
+              field: 'address',
+              headerName: '주소',
               width: 220,
             },
             {
-              field: "couponNumber",
-              headerName: "쿠폰번호",
+              field: 'couponNumber',
+              headerName: '쿠폰번호',
               width: 100,
               disableExport: true,
             },
             {
-              field: "name",
-              headerName: "패키지",
+              field: 'name',
+              headerName: '패키지',
               width: 120,
               disableExport: true,
             },
             {
-              field: "package",
-              headerName: "상태",
-              width: 40,
+              field: 'title',
+              headerName: '책 제목',
+              width: 140,
+              disableExport: true,
+            },
+            {
+              field: 'package',
+              headerName: '상태',
+              width: 60,
               disableExport: true,
             }, // answerCount + questionCount
             {
-              field: "answer",
-              headerName: "답변&삽화",
+              field: 'answer',
+              headerName: '답변&삽화',
               width: 100,
               renderCell: (params) => {
                 const { row } = params;
-                const isSubmitted = row.package === "제출";
+                const isSubmitted = row.package === '제출';
                 const isCompleted = row.answerCount === row.questionCount;
-                // 답변
-                const data = useRecoilValue(csvData);
-                // 삽화
-                const title = useRecoilValue(csvTitle);
-                const [user, setUser] = useRecoilState(selectBuyerListData);
+
                 // Download Img
                 const downloadImg = () => {
-                  const download = useDownloadImg(title);
+                  const download = useDownloadImg(recoilImgDownloadData);
                   download();
+                  const { answer } = userAnswer;
+                  const get = answer.filter((datas) => {
+                    console.log(datas.ai_answer);
+                    if (datas.ai_answer !== '') {
+                      return datas;
+                    }
+                  });
                 };
 
                 if (isSubmitted) {
                   return (
                     <SubmittedCSVDownloadButton
-                      style={{ backgroundColor: "#949591" }}
+                      style={{ backgroundColor: '#949591' }}
+                      imgLink={row.imgLink}
+                      iscompleted={isCompleted}
                     >
                       <CSVLink
-                        data={data.answer}
+                        data={userAnswer.answer}
                         headers={answerHeaders}
-                        filename={data.csvFilename}
+                        filename={userAnswer.csvFilename}
                         onClick={downloadImg}
                       >
                         바로가기
@@ -179,9 +214,9 @@ const BuyerList = () => {
                       iscompleted={isCompleted}
                     >
                       <CSVLink
-                        data={data.answer}
+                        data={userAnswer.answer}
                         headers={answerHeaders}
-                        filename={data.csvFilename}
+                        filename={userAnswer.csvFilename}
                         onClick={downloadImg}
                       >
                         바로가기
@@ -193,15 +228,15 @@ const BuyerList = () => {
               disableExport: true,
             },
             {
-              field: "userSubscribeStory",
-              headerName: "업로드",
-              width: 150,
+              field: 'userSubscribeStory',
+              headerName: '업로드',
+              width: 120,
               disableExport: true,
               renderCell: (params) => {
                 const { row } = params;
                 const { imgStatus } = params.row;
-                const isSubmitted =
-                  row.answerCount === row.questionCount ? "제출" : null;
+                const isSubmitted = row.answerCount === row.questionCount;
+                const isEbookInData = bookCover[0].ebook.length > 0;
                 // 선택된 유저 데이터
                 const [user, setUser] = useRecoilState(selectBuyerListData);
                 // console.log(user);
@@ -209,14 +244,8 @@ const BuyerList = () => {
                 const cover = useRecoilValue(checkUserData);
 
                 // bookCover에 값이 없을 때 표지 업로드 함수 호출
-                const handleSign = async (data) => {
-                  const uploadSign = useUploadSign(
-                    data,
-                    isSign,
-                    setIsSign,
-                    user,
-                    setUser
-                  );
+                const handleSign = (data) => {
+                  const uploadSign = useUploadSign(data, isSign, setIsSign, user, setUser);
                   uploadSign();
                 };
 
@@ -225,140 +254,73 @@ const BuyerList = () => {
                 };
 
                 // bookCover에 값이 없을 때  전자책 업로드 함수
-                const handleEbook = async (data) => {
-                  const uplodaEbook = useUploadEbook(
-                    data,
-                    isEbook,
-                    setIsEbook,
-                    user
-                  );
+                const handleEbook = (data) => {
+                  const uplodaEbook = useUploadEbook(data, user, setUser);
                   uplodaEbook();
                 };
 
                 // 전자책 다운로드
-                const downloadEbook = async () => {
-                  console.log(bookCover[0].ebook);
-                  const imgURL = `${bookCover[0].ebook}`;
-                  try {
-                    const response = await fetch(imgURL);
-                    const blob = await response.blob();
-
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement("a");
-
-                    a.href = url;
-                    // 추 후 선택된 유저 이름을 넣을 수 있게 변경
-                    a.download = `${recoilcsvData.csvFilename}.pdf`;
-                    document.body.appendChild(a);
-                    a.click();
-                    window.URL.revokeObjectURL(url);
-                    document.body.removeChild(a);
-                  } catch (e) {
-                    console.log(e);
-                  }
+                const downloadEbook = () => {
+                  const ebook = useDownloadEbook(bookCover, csvFilename);
+                  ebook();
                 };
 
-                if (isSubmitted) {
-                  return (
-                    <FileUploadContainer
-                      isSign={isSign}
-                      isEbook={isEbook}
-                      imgStatus={imgStatus}
-                      isSubmitted={isSubmitted}
-                    >
-                      <label htmlFor="sign" className="signTitle">
-                        표지
-                      </label>
-                      {bookCover[0].sign ? (
-                        <SignBtn
-                          id="sign"
-                          onClick={openModal}
-                          isvisible={isSign}
-                        />
-                      ) : (
-                        <SignBtn
-                          id="sign"
-                          type="file"
-                          onChange={(e) => handleSign(e)}
-                          isvisible={isSign}
-                        />
-                      )}
-                      <label htmlFor="ebook" className="ebookTitle">
-                        전자
-                      </label>
-                      {bookCover[0].ebook ? (
-                        <EbookBtn
-                          id="ebook"
-                          onClick={downloadEbook}
-                          isvisible={isEbook}
-                        />
-                      ) : (
-                        <EbookBtn
-                          id="ebook"
-                          type="file"
-                          onChange={(e) => handleEbook(e)}
-                          isvisible={isEbook}
-                        />
-                      )}
-                    </FileUploadContainer>
-                  );
-                } else {
-                  return (
-                    <FileUploadContainer
-                      isSign={isSign}
-                      isEbook={isEbook}
-                      imgStatus={imgStatus}
-                    >
-                      <label htmlFor="sign" className="signTitle">
-                        표지
-                      </label>
-                      {bookCover[0].sign ? (
-                        <SignBtn
-                          id="sign"
-                          onClick={(e) => openModal(e)}
-                          isvisible={isSign}
-                        />
-                      ) : (
-                        <SignButton
-                          id="sign"
-                          type="file"
-                          onChange={(e) => handleSign(e)}
-                          isvisible={isSign}
-                        />
-                      )}
-                      <label htmlFor="ebook" className="ebookTitle">
-                        전자
-                      </label>
-                      {bookCover[0].ebook ? (
-                        <EbookBtn
-                          id="ebook"
-                          type="file"
-                          onClick={downloadEbook}
-                          isvisible={isEbook}
-                        />
-                      ) : (
-                        <EbookButton
-                          id="ebook"
-                          type="file"
-                          onChange={(e) => handleEbook(e)}
-                          isvisible={isEbook}
-                        />
-                      )}
-                    </FileUploadContainer>
-                  );
-                }
+                return (
+                  <FileUploadContainer isSign={isSign} isEbook={isEbook} imgStatus={imgStatus}>
+                    <label htmlFor="sign" className="signTitle">
+                      표지
+                    </label>
+                    {bookCover[0].sign !== '' ? (
+                      <SignBtn id="sign" onClick={(e) => openModal(e)} isvisible={isSign} />
+                    ) : (
+                      <SignButton
+                        id="sign"
+                        type="file"
+                        onChange={(e) => handleSign(e)}
+                        isvisible={isSign}
+                      />
+                    )}
+                    <label htmlFor="ebook" className="ebookTitle">
+                      전자
+                    </label>
+                    {bookCover[0].ebook.length > 0 ? (
+                      <EbookBtn
+                        id="ebook"
+                        type="file"
+                        onClick={downloadEbook}
+                        isvisible={isEbook}
+                        isEbookInData={isEbookInData}
+                      />
+                    ) : (
+                      <EbookButton
+                        id="ebook"
+                        type="file"
+                        onChange={(e) => handleEbook(e)}
+                        isvisible={isEbook}
+                      />
+                    )}
+                  </FileUploadContainer>
+                );
               },
+            },
+            {
+              field: 'userEmail',
+              headerName: 'Email',
+              width: 200,
+              disableExport: true,
             },
           ]}
           initialState={{
             pagination: {
-              paginationModel: { page: 0, pageSize: 7 },
+              paginationModel: { page: 3, pageSize: 7 },
             },
           }}
           pageSizeOptions={[8, 10]}
           checkboxSelection
+          isRowSelectable={(params) => params.row.phone !== '최종 제출 전'}
           onCellClick={(cell) => {
             getUserData(cell);
+            // get(cell);
           }}
           slots={{
             toolbar: GridToolbar,
