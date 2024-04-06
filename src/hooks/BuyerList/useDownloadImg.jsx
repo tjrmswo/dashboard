@@ -1,7 +1,7 @@
 const useDownloadImg = (userData) => {
   async function downloadImg() {
-    const imgUrl = `${userData.img}`;
-    console.log(imgUrl);
+    const imgUrl = userData.img;
+    // console.log(userData);
 
     try {
       const response = await fetch(imgUrl);
@@ -10,9 +10,7 @@ const useDownloadImg = (userData) => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download =
-        `${userData.userData.userName}_${userData.userData.userSubscribeStory}` ||
-        "userData.csv";
+      a.download = `${userData.userData}` || "userData.csv";
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
