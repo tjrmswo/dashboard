@@ -8,15 +8,16 @@ const useDownloadImg = (userData) => {
       const blob = await response.blob();
 
       const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
+      const a = document.createElement('a');
       a.href = url;
-      a.download = `${userData.userData}` || "userData.csv";
+      a.download =
+        `${userData.userData.userName}_${userData.userData.userSubscribeStory}` || 'userData.csv';
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
     } catch (error) {
-      console.log("파일 다운로드 에러: ", error);
+      console.log('파일 다운로드 에러: ', error);
     }
   }
   return downloadImg;

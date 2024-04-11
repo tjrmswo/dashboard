@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const ModalContainer = styled.div`
   display: flex;
@@ -26,7 +26,7 @@ export const ModalContainer = styled.div`
     width: 100%;
     text-align: start;
     padding: 0.7rem;
-    font-family: "GmarketSans-Medium";
+    font-family: 'GmarketSans-Medium';
   }
   .imgContainer {
     width: 100%;
@@ -38,7 +38,7 @@ export const ModalContainer = styled.div`
     width: 100%;
     text-align: center;
 
-    input[type="file"] {
+    input[type='file'] {
       width: 0px;
     }
   }
@@ -46,27 +46,46 @@ export const ModalContainer = styled.div`
     width: 15vw;
     background-color: #ebfcd6;
     border: 2px solid #aaeb5a;
-    &:focus {
-      outline: none;
-    }
     font-size: 1.2rem;
     border-radius: 1rem;
     padding-left: 5rem;
     padding-right: 5rem;
     padding-top: 0.2rem;
     padding-bottom: 0.2rem;
-    font-family: "GmarketSans-Medium";
+    font-family: 'GmarketSans-Medium';
+    &:hover {
+      transition: 0.3s transform;
+      transform: scale(1.1);
+    }
+  }
+`;
+
+export const EditButton = styled.label`
+  width: 15vw;
+  background-color: #ebfcd6;
+  border: 2px solid #aaeb5a;
+  font-size: 1.2rem;
+  border-radius: 1rem;
+  padding-left: 5rem;
+  padding-right: 5rem;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  font-family: 'GmarketSans-Medium';
+
+  :hover {
+    transition: 0.3s transform;
+    transform: scale(1.1);
   }
 `;
 
 // close button
 export const CancelButton = styled.div`
   padding: 0.7rem;
-  font-family: "GmarketSans-Medium";
+  font-family: 'GmarketSans-Medium';
 `;
 
 // sign Image
 export const SignImg = styled.img`
-  width: 25vw;
-  height: 60vh;
+  width: 330px;
+  height: 440px;
 `;

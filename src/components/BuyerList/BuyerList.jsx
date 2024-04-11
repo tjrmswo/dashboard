@@ -23,7 +23,6 @@ import '@/font.css';
 import { Container } from './styles';
 import {
   CSVDownloadButton,
-  SubmittedCSVDownloadButton,
   SignButton,
   EbookButton,
   FileUploadContainer,
@@ -78,9 +77,6 @@ const BuyerList = () => {
 
   //Get userData
   const getUserData = (data) => {
-    const userData = UseGetUserData(data, setSelectedUserData, setRecoilImgDownloadData);
-    userData();
-
     // sign ebook data
     const signEbook = useGetSignEbookData(data, setBookCover, setSelectedUserData);
     signEbook();
@@ -89,17 +85,14 @@ const BuyerList = () => {
     const answerData = useGetAnswerData(
       data,
       setRecoilAnswerDownloadData,
-      setRecoilImgDownloadData,
-      recoilAnswerDownloadData,
       setUserAnswer,
       userAnswer
     );
     answerData();
-  };
 
-  // const get = (data) => {
-  //   console.log(data);
-  // }
+    const userData = UseGetUserData(data, setSelectedUserData, setRecoilImgDownloadData);
+    userData();
+  };
 
   //Fetch UserList
   const fetchData = async () => {
@@ -111,14 +104,10 @@ const BuyerList = () => {
     fetchData();
   }, []);
   useEffect(() => {
-    // console.log("selectedUserData: ", selectedUserData);
-    // console.log('recoilAnswerDownloadData: ', recoilAnswerDownloadData);
-    // console.log('answerHeaders: ', answerHeaders);
-    // console.log('datass: ', datass);
-    console.log('userAnswer: ', userAnswer);
-    console.log('bookCover: ', bookCover);
-    console.log('userList: ', userList);
-  }, [bookCover, userAnswer]);
+    // console.log('userAnswer: ', userAnswer);
+    // console.log('bookCover: ', bookCover);
+    // console.log('selectedUserData: ', selectedUserData);
+  }, [bookCover, userAnswer, userList, isSign, selectedUserData]);
 
   return (
     <Container isSign={isSign} isEbook={isEbook}>
@@ -146,25 +135,21 @@ const BuyerList = () => {
               field: 'couponNumber',
               headerName: '쿠폰번호',
               width: 100,
-              disableExport: true,
             },
             {
               field: 'name',
               headerName: '패키지',
               width: 120,
-              disableExport: true,
             },
             {
               field: 'title',
               headerName: '책 제목',
               width: 140,
-              disableExport: true,
             },
             {
               field: 'package',
               headerName: '상태',
               width: 60,
-              disableExport: true,
             }, // answerCount + questionCount
             {
               field: 'answer',
@@ -172,6 +157,7 @@ const BuyerList = () => {
               width: 100,
               renderCell: (params) => {
                 const { row } = params;
+                const { imgStatus } = params.row;
                 const isSubmitted = row.package === '제출';
                 const isCompleted = row.answerCount === row.questionCount;
 
@@ -181,62 +167,51 @@ const BuyerList = () => {
                   download();
                   const { answer } = userAnswer;
                   const get = answer.filter((datas) => {
-                    console.log(datas.ai_answer);
                     if (datas.ai_answer !== '') {
                       return datas;
                     }
                   });
+                  const removeNewLine = answer.map((answer) => {
+                    if (answer.includes('\n\n') && answer.includes('\n')) {
+                      const remove = answer.replace(/\n/g, '');
+                      // console.log(remove);
+                      return remove;
+                    } else {
+                      return answer;
+                    }
+                  });
+                  setUserAnswer(removeNewLine);
                 };
 
-                if (isSubmitted) {
-                  return (
-                    <SubmittedCSVDownloadButton
-                      style={{ backgroundColor: '#949591' }}
-                      imgLink={row.imgLink}
-                      iscompleted={isCompleted}
+                return (
+                  <CSVDownloadButton
+                    isSign={isSign}
+                    iscompleted={isCompleted}
+                    imgStatus={imgStatus}
+                  >
+                    <CSVLink
+                      data={userAnswer.answer}
+                      headers={answerHeaders}
+                      filename={userAnswer.csvFilename}
+                      onClick={downloadImg}
                     >
-                      <CSVLink
-                        data={userAnswer.answer}
-                        headers={answerHeaders}
-                        filename={userAnswer.csvFilename}
-                        onClick={downloadImg}
-                      >
-                        바로가기
-                      </CSVLink>
-                    </SubmittedCSVDownloadButton>
-                  );
-                } else {
-                  return (
-                    <CSVDownloadButton
-                      isSign={isSign}
-                      isEbook={isEbook}
-                      imgLink={row.imgLink}
-                      iscompleted={isCompleted}
-                    >
-                      <CSVLink
-                        data={userAnswer.answer}
-                        headers={answerHeaders}
-                        filename={userAnswer.csvFilename}
-                        onClick={downloadImg}
-                      >
-                        바로가기
-                      </CSVLink>
-                    </CSVDownloadButton>
-                  );
-                }
+                      바로가기
+                    </CSVLink>
+                  </CSVDownloadButton>
+                );
               },
-              disableExport: true,
             },
             {
               field: 'userSubscribeStory',
               headerName: '업로드',
               width: 120,
-              disableExport: true,
+
               renderCell: (params) => {
                 const { row } = params;
-                const { imgStatus } = params.row;
+                const { imgStatus, ebookStatus, adminImgStatus } = params.row;
                 const isSubmitted = row.answerCount === row.questionCount;
-                const isEbookInData = bookCover[0].ebook.length > 0;
+
+                // console.log(isEbookInData);
                 // 선택된 유저 데이터
                 const [user, setUser] = useRecoilState(selectBuyerListData);
                 // console.log(user);
@@ -261,17 +236,31 @@ const BuyerList = () => {
 
                 // 전자책 다운로드
                 const downloadEbook = () => {
-                  const ebook = useDownloadEbook(bookCover, csvFilename);
-                  ebook();
+                  if (bookCover.ebook) {
+                    const ebook = useDownloadEbook(bookCover, csvFilename);
+                    ebook();
+                  }
                 };
 
                 return (
-                  <FileUploadContainer isSign={isSign} isEbook={isEbook} imgStatus={imgStatus}>
+                  <FileUploadContainer
+                    isSign={isSign}
+                    ebookStatus={ebookStatus}
+                    imgStatus={imgStatus}
+                    adminImgStatus={adminImgStatus}
+                  >
                     <label htmlFor="sign" className="signTitle">
                       표지
                     </label>
-                    {bookCover[0].sign !== '' ? (
-                      <SignBtn id="sign" onClick={(e) => openModal(e)} isvisible={isSign} />
+                    {bookCover.sign !== '' ? (
+                      <SignBtn
+                        id="sign"
+                        onClick={() => openModal()}
+                        isSign={isSign}
+                        ebookStatus={ebookStatus}
+                        imgStatus={imgStatus}
+                        adminImgStatus={adminImgStatus}
+                      />
                     ) : (
                       <SignButton
                         id="sign"
@@ -283,13 +272,15 @@ const BuyerList = () => {
                     <label htmlFor="ebook" className="ebookTitle">
                       전자
                     </label>
-                    {bookCover[0].ebook.length > 0 ? (
+                    {bookCover.ebook !== '' ? (
                       <EbookBtn
                         id="ebook"
-                        type="file"
                         onClick={downloadEbook}
-                        isvisible={isEbook}
-                        isEbookInData={isEbookInData}
+                        isSin={isSign}
+                        isSubmitted={isSubmitted}
+                        ebookStatus={ebookStatus}
+                        imgStatus={imgStatus}
+                        adminImgStatus={adminImgStatus}
                       />
                     ) : (
                       <EbookButton
@@ -307,15 +298,14 @@ const BuyerList = () => {
               field: 'userEmail',
               headerName: 'Email',
               width: 200,
-              disableExport: true,
             },
           ]}
           initialState={{
             pagination: {
-              paginationModel: { page: 3, pageSize: 7 },
+              paginationModel: { page: 0, pageSize: 7 },
             },
           }}
-          pageSizeOptions={[8, 10]}
+          pageSizeOptions={[7, 10]}
           checkboxSelection
           isRowSelectable={(params) => params.row.phone !== '최종 제출 전'}
           onCellClick={(cell) => {

@@ -4,7 +4,7 @@
 import { useEffect } from 'react';
 
 // components
-import { ModalContainer, CancelButton, SignImg } from './modalStyles';
+import { ModalContainer, CancelButton, SignImg, EditButton } from './modalStyles';
 
 // libraries
 import { signModalState, selectBuyerListData, checkUserData } from '@/atom/state';
@@ -25,13 +25,13 @@ const Modal = () => {
   };
 
   const modifySign = async (e) => {
-    const modify = useModifySign(e, user, setUser);
+    const modify = useModifySign(e, user, setUser, setDownloadData);
     modify();
   };
 
   useEffect(() => {
-    console.log('user: ', user);
-    console.log('downloadData: ', downloadData);
+    // console.log('user: ', user);
+    // console.log('downloadData: ', downloadData);
   }, [user, downloadData]);
 
   return (
@@ -41,12 +41,12 @@ const Modal = () => {
         <CancelButton onClick={closeModal}>X</CancelButton>
       </div>
       <div className="imgContainer">
-        <SignImg src={downloadData[0].sign !== '' && downloadData[0].sign} />
+        <SignImg src={user.sign !== '' && user.sign} />
       </div>
       <div className="buttonContainer">
-        <label htmlFor="edit" className="editButton">
+        <EditButton htmlFor="edit" className="editButton" style={{ color: '#aaeb5a' }}>
           수정
-        </label>
+        </EditButton>
         <input id="edit" type="file" onChange={(e) => modifySign(e)} accept="image/jpeg" />
       </div>
     </ModalContainer>

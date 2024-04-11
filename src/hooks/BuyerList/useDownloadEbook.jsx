@@ -1,6 +1,6 @@
 const useDownloadEbook = (bookCover, csvFilename) => {
   async function downloadEbook() {
-    const imgURL = `${bookCover[0].ebook}`;
+    const imgURL = `${bookCover.ebook}`;
     try {
       const response = await fetch(imgURL);
       const blob = await response.blob();

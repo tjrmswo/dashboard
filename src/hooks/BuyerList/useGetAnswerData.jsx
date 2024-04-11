@@ -1,17 +1,10 @@
 // libraries
 import axios from 'axios';
 
-const useGetAnswerData = (
-  data,
-  setRecoilAnswerDownloadData,
-  setRecoilImgDownloadData,
-  recoilAnswerDownloadData,
-  setUserAnswer,
-  userAnswer
-) => {
+const useGetAnswerData = (data, setRecoilImgDownloadData, setUserAnswer, userAnswer) => {
   async function useGetAnswerData() {
     const answerData = await answerDownloadData(data.row.userSubscribeStory, data.row.userName);
-    console.log(answerData);
+    // console.log(answerData);
 
     // answer
     const { answers } = answerData.userAnswer;
@@ -22,12 +15,40 @@ const useGetAnswerData = (
     // imgLink
     const { imgLink } = answerData.userAnswer;
 
+    // console.log(answers);
+    // const removeNewLint = answers.map((answer) => {
+    //   answer.map((a) => {
+    //     if (a.includes('\n\n') && a.includes('\n')) {
+    //       const remove = a.replace('\n\n', '');
+    //       const removeA = remove.replace('\n', '');
+    //       console.log(removeA);
+    //       return removeA;
+    //     } else {
+    //       return a;
+    //     }
+    //   });
+    // });
+
+    const removeNewLine = answers.map((answer) =>
+      answer.map((a) => {
+        if (a.includes('\n\n') && a.includes('\n')) {
+          const remove = a.replace(/\n/g, '');
+          // console.log(remove);
+          return remove;
+        } else {
+          return a;
+        }
+      })
+    );
+
+    // console.log(removeNewLine);
+
     if (userAnswer.csvFilename !== csvFilename) {
       setUserAnswer((prev) => ({
         ...prev,
         answer: [],
       }));
-      answers.map((answer) => {
+      removeNewLine.map((answer) => {
         setUserAnswer((prev) => ({
           csvFilename,
           answer: [
@@ -41,7 +62,7 @@ const useGetAnswerData = (
       });
     } else {
       if (userAnswer.answer.length === 1) {
-        answers.map((answer) => {
+        removeNewLine.map((answer) => {
           setUserAnswer((prev) => ({
             csvFilename,
             answer: [
@@ -69,7 +90,7 @@ export default useGetAnswerData;
 async function answerDownloadData(userSubscribeStory, userName) {
   // 답변 & 삽화
   const answer = await axios.get(
-    import.meta.env.VITE_API_SERVER_ADDRESS + `/admin/answers/${userSubscribeStory}`
+    import.meta.env.VITE_INKINK_ADDRESS + `/admin/answers/${userSubscribeStory}`
   );
   const userAnswer = answer.data.data;
 

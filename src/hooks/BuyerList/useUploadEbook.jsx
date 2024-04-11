@@ -9,7 +9,7 @@ const useUploadEbook = (data, user, setUser) => {
       formdata.append('file', files[0]);
       try {
         const res = await axios.post(
-          import.meta.env.VITE_API_SERVER_ADDRESS + `/admin/ebooks/${user.userSubscribeStory}`,
+          import.meta.env.VITE_INKINK_ADDRESS + `/admin/ebooks/${user.userSubscribeStory}`,
           formdata,
           {
             headers: {
@@ -17,7 +17,7 @@ const useUploadEbook = (data, user, setUser) => {
             },
           }
         );
-        console.log(res);
+        // console.log(res);
         setUser((prev) => ({
           ...prev,
           ebook: res.data.data,

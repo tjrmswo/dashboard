@@ -3,7 +3,7 @@ import axios from 'axios';
 const useFetchData = (setUserList) => {
   async function fetchData() {
     try {
-      const response = await axios.get(import.meta.env.VITE_API_SERVER_ADDRESS + '/admin/buyer');
+      const response = await axios.get(import.meta.env.VITE_INKINK_ADDRESS + '/admin/buyer');
       const data = response.data.data;
       // console.log(data);
       if (Array.isArray(data)) {
@@ -54,7 +54,7 @@ const useFetchData = (setUserList) => {
         setUserList(changeName);
       } else {
         // 응답이 배열이 아닌 경우 처리
-        console.log('Response data is not an array:', data);
+        // console.log('Response data is not an array:', data);
 
         const addPackage = data.map((item) => {
           // const questionCount =

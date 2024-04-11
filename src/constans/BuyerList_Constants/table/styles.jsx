@@ -7,32 +7,15 @@ export const CSVDownloadButton = styled.div`
     outline: none;
   }
   background-color: ${(props) => {
-    if (props.isSign === true || props.isEbook === true) {
+    if (props.isSign === true) {
       return '#dcebc491a';
-    } else if (props.iscompleted && props.imgLink) {
+    } else if (props.iscompleted === true && props.imgStatus === true) {
       return 'yellow';
     } else {
       return '#dcebc9';
     }
   }};
   text-align: center;
-`;
-export const SubmittedCSVDownloadButton = styled.div`
-  width: 5vw;
-  border: none;
-  &:focus {
-    outline: none;
-  }
-  text-align: center;
-  background-color: ${(props) => {
-    if (props.isSign === true || props.isEbook === true) {
-      return '#dcebc491a';
-    } else if (props.iscompleted) {
-      return 'yellow';
-    } else {
-      return '#dcebc9';
-    }
-  }};
 `;
 
 export const FileUploadContainer = styled.div`
@@ -45,10 +28,8 @@ export const FileUploadContainer = styled.div`
     align-items: center;
     justify-content: center;
     background-color: ${(props) => {
-      if (props.isSign === true || props.isEbook === true) {
+      if (props.isSign === true) {
         return '#dcebc91a';
-      } else if (props.isSubmitted) {
-        return '#949591';
       } else if (props.imgStatus) {
         return 'yellow';
       } else {
@@ -63,15 +44,11 @@ export const FileUploadContainer = styled.div`
     align-items: center;
     justify-content: center;
     background-color: ${(props) => {
-      if (props.isSign === true || props.isEbook === true) {
+      if (props.isSign === true) {
         return '#dcebc91a';
-      } else if (props.isSubmitted) {
-        return '#949591';
-      }
-      // else if (props.imgStatus) {
-      //   return "yellow";
-      // }
-      else {
+      } else if (props.ebookStatus) {
+        return 'yellow';
+      } else {
         return '#dcebc9';
       }
     }};
@@ -122,18 +99,16 @@ export const EbookBtn = styled.input`
     outline: none;
   }
   display: none;
-  /* background-color: ${(props) =>
-    props.isSign === true || props.isEbook === true ? '#dcebc91a' : '#dcebc9'}; */
 
   background-color: ${(props) => {
-    if (props.isSign === true || props.isEbook === true) {
+    if (props.isSign === true) {
       return '#dcebc91a';
     } else if (props.isSubmitted) {
       return '#949591';
-    } else if (props.isEbookInData) {
+    } else if (props.isEbookInData === true) {
       return 'yellow';
     } else {
-      return '#dcebc9';
+      // return '#dcebc9';
     }
   }};
 `;

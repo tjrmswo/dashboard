@@ -50,27 +50,22 @@ export const EbookModalState = atom({
 // 구매자 리스트 선택된 유저 데이터
 export const selectBuyerListData = atom({
   key: 'selectBuyerListData',
-  default: [
-    {
-      userId: 0,
-      userName: '',
-      userPhoneNumber: '',
-      userAddress: '',
-      userNickname: '',
-      userSubscribeStory: 0,
-      sign: '',
-      ebook: '',
-      uploadtype: '',
-    },
-  ],
+  default: {
+    userId: 0,
+    userName: '',
+    userPhoneNumber: '',
+    userAddress: '',
+    userNickname: '',
+    userSubscribeStory: 0,
+    sign: '',
+    ebook: '',
+  },
 });
 
 export const checkUserData = atom({
   key: 'bookCovers',
-  default: [
-    {
-      sign: '',
-      ebook: '',
-    },
-  ],
+  default: {
+    sign: '',
+    ebook: '',
+  },
 });
