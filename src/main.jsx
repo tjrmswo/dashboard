@@ -1,10 +1,22 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
+import App from "./App.jsx";
+import { createRoot } from "react-dom/client";
+import "./configs/recoil.jsx";
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+//recoil
+import { RecoilRoot } from "recoil";
+
+
+// //msw
+// import { worker } from "./mocks/brower.jsx";
+// if (import.meta.env.NODE_ENV !== "development") {
+//   worker.start();
+// }
+
+const rootElement = document.getElementById("root");
+const root = createRoot(rootElement);
+
+root.render(
+  <RecoilRoot>
     <App />
-  </React.StrictMode>,
-)
+  </RecoilRoot>
+);
